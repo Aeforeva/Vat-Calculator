@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.sideTax = sharedPref.getInt(SIDE_TAX, 1000).toDouble() / 100
         viewModel.showSide = sharedPref.getBoolean(SHOW_SIDE, true)
         viewModel.saveHistory = sharedPref.getBoolean(SAVE_HISTORY, true)
-        viewModel.historyMax = sharedPref.getInt(HISTORY_MAX, 100)
+        viewModel.historyMax = sharedPref.getLong(HISTORY_MAX, 604800000)
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment

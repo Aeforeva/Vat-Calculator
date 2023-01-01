@@ -3,13 +3,14 @@
     <string name="settings">Settings</string>
     <string name="history">History</string>
 
-    <string name="sum_with_tax">With VAT</string>
-    <string name="sum_without_tax">Without VAT</string>
+    <string name="sum_with_tax">with VAT</string>
+    <string name="sum_without_tax">without VAT</string>
     <string name="tax">VAT</string>
-    <string name="buttons_comment">calculate by:</string>
+    <string name="buttons_comment">Calculate by:</string>
     <string name="empty_input_msg">Input some values</string>
 
-    <string name="delete">Delete</string>
     <string name="symbol_revers">▼</string>
     <string name="symbol_strait">▲</string>
+    <string name="delete">Delete all unlocked</string>
+    <string name="filter">Filter by locked</string>
 </resources>

@@ -19,8 +19,11 @@ interface CalculationDao {
     suspend fun deleteAll()
 
     @Query("SELECT * from Calculations ORDER BY timeStamp ASC")
-    fun getCalculationsAsc(): Flow<List<Calculation>>
+    fun getAllAsc(): Flow<List<Calculation>>
 
     @Query("SELECT * from Calculations ORDER BY timeStamp DESC")
-    fun getCalculationsDesc(): Flow<List<Calculation>>
+    fun getAllDesc(): Flow<List<Calculation>>
+
+    @Query("SELECT * from Calculations Where isLocked = 1 ORDER BY timeStamp DESC")
+    fun getLocked(): Flow<List<Calculation>>
 }

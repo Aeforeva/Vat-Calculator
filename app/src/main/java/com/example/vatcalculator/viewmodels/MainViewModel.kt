@@ -15,7 +15,8 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
     var sideTax = 0.0
     var showSide = false
     var saveHistory = false
-    var historyMax = 1
+    var historyMax: Long = 604800000
+    var historyTimeStampLimit: Long = System.currentTimeMillis() - historyMax
 
     fun taxToString(tax: Double): String {
         return if ((tax * 100).toInt() % 100 == 0) "${tax.toInt()} %" else "$tax %"
@@ -34,8 +35,8 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
     fun saveCalculation(withTax: String, withoutTax: String, tax: String) {
         val tsLong = System.currentTimeMillis()
         Log.d("Time Stamp", tsLong.toString())
-        Log.d("Time Stamp to Date", tsLong.getDate())
-        Log.d("Time Stamp to Time", tsLong.getTime())
+        Log.d("Time Stamp to Date", historyTimeStampLimit.getDate())
+        Log.d("Time Stamp to Time", historyTimeStampLimit.getTime())
         viewModelScope.launch {
             calculationDao.insert(Calculation(tsLong, withTax, withoutTax, tax, false))
         }
@@ -59,8 +60,9 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
         }
     }
 
-    val historyAsc: LiveData<List<Calculation>> = calculationDao.getCalculationsAsc().asLiveData()
-    val historyDesc: LiveData<List<Calculation>> = calculationDao.getCalculationsDesc().asLiveData()
+    val historyAsc: LiveData<List<Calculation>> = calculationDao.getAllAsc().asLiveData()
+    val historyDesc: LiveData<List<Calculation>> = calculationDao.getAllDesc().asLiveData()
+    val historyLocked: LiveData<List<Calculation>> = calculationDao.getLocked().asLiveData()
 
 }
 

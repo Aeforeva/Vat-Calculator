@@ -12,6 +12,8 @@ import androidx.lifecycle.Lifecycle
 import com.example.vatcalculator.R
 import com.example.vatcalculator.VatApplication
 import com.example.vatcalculator.databinding.FragmentCalculationBinding
+import com.example.vatcalculator.databinding.FragmentHistoryBinding
+import com.example.vatcalculator.databinding.FragmentSettingsBinding
 import com.example.vatcalculator.viewmodels.MainViewModel
 import com.example.vatcalculator.viewmodels.MainViewModelFactory
 
@@ -22,7 +24,7 @@ class HistoryFragment : Fragment() {
             (activity?.application as VatApplication).database.CalculationDao()
         )
     }
-    private var _binding: FragmentCalculationBinding? = null
+    private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +38,10 @@ class HistoryFragment : Fragment() {
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
+                    R.id.menu_filter -> {
+                        // TODO Filter
+                        true
+                    }
                     R.id.menu_delete -> {
                         // TODO Dialog to confirm delete
                         viewModel.deleteHistory()
@@ -52,8 +58,8 @@ class HistoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history, container, false)
+        _binding = FragmentHistoryBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
