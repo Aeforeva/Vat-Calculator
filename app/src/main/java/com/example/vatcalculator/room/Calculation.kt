@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "Calculations")
 data class Calculation(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = false) val timeStamp: Long,
     val withTax : Double,
     val withoutTax: Double,
     val tax: Double,
