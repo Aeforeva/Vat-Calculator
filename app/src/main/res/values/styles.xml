@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.Vat_Calculator.TextInputEditText" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:inputType">numberDecimal</item>
+    </style>
+
+    <style name="Widget.Vat_Calculator.Buttons" parent="Widget.AppCompat.Button">
+        <item name="android:layout_height">76dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:background">@drawable/roundedbutton</item>
+    </style>
+
+</resources>

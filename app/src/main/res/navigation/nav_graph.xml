@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/calculationFragment">
+
+    <fragment
+        android:id="@+id/calculationFragment"
+        android:name="com.example.vatcalculator.ui.CalculationFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_calculation">
+        <action
+            android:id="@+id/action_calculationFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_calculationFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.vatcalculator.ui.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.example.vatcalculator.ui.HistoryFragment"
+        android:label="@string/history"
+        tools:layout="@layout/fragment_history" />
+</navigation>
