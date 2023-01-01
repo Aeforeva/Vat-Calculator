@@ -1,11 +1,11 @@
 package com.example.vatcalculator.viewmodels
 
 import android.annotation.SuppressLint
-import android.text.Editable
 import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
+import com.example.vatcalculator.room.Calculation
 import com.example.vatcalculator.room.CalculationDao
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,16 +31,37 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
         return SimpleDateFormat("HH:mm").format(Date(this))
     }
 
-    fun saveCalculation(text: Editable?, text1: Editable?, text2: Editable?) {
-        // TODO save to Room Database
+    fun saveCalculation(withTax: String, withoutTax: String, tax: String) {
         val tsLong = System.currentTimeMillis()
         Log.d("Time Stamp", tsLong.toString())
-        Log.d("Time Stamp", tsLong.getDate())
-        Log.d("Time Stamp", tsLong.getTime())
-        Log.d("History 120", text.toString())
-        Log.d("History 100", text1.toString())
-        Log.d("History 20", text2.toString())
+        Log.d("Time Stamp to Date", tsLong.getDate())
+        Log.d("Time Stamp to Time", tsLong.getTime())
+        viewModelScope.launch {
+            calculationDao.insert(Calculation(tsLong, withTax, withoutTax, tax, false))
+        }
     }
+
+    fun updateCalculation(calculation: Calculation) {
+        viewModelScope.launch {
+            calculationDao.update(calculation)
+        }
+    }
+
+    fun deleteCalculation(calculation: Calculation) {
+        viewModelScope.launch {
+            calculationDao.delete(calculation)
+        }
+    }
+
+    fun deleteHistory() {
+        viewModelScope.launch {
+            calculationDao.deleteAll()
+        }
+    }
+
+    val historyAsc: LiveData<List<Calculation>> = calculationDao.getCalculationsAsc().asLiveData()
+    val historyDesc: LiveData<List<Calculation>> = calculationDao.getCalculationsDesc().asLiveData()
+
 }
 
 class MainViewModelFactory(private val calculationDao: CalculationDao) :

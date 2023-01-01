@@ -151,9 +151,9 @@ class CalculationFragment : Fragment() {
         /** Save to database if enabled */
         if (viewModel.saveHistory) {
             viewModel.saveCalculation(
-                binding.sumWithTaxEditText.text,
-                binding.sumWithoutTaxEditText.text,
-                binding.taxEditText.text
+                binding.sumWithTaxEditText.text.toString(),
+                binding.sumWithoutTaxEditText.text.toString(),
+                binding.taxEditText.text.toString()
             )
         }
     }

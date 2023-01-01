@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import com.example.vatcalculator.R
 import com.example.vatcalculator.SHOW_SIDE
 import com.example.vatcalculator.VatApplication
+import com.example.vatcalculator.databinding.FragmentCalculationBinding
 import com.example.vatcalculator.viewmodels.MainViewModel
 import com.example.vatcalculator.viewmodels.MainViewModelFactory
 
@@ -21,6 +22,8 @@ class SettingsFragment : Fragment() {
             (activity?.application as VatApplication).database.CalculationDao()
         )
     }
+    private var _binding: FragmentCalculationBinding? = null
+    private val binding get() = _binding!!
     private lateinit var sharedPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,4 +40,8 @@ class SettingsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
