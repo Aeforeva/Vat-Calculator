@@ -11,9 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import com.example.vatcalculator.R
 import com.example.vatcalculator.VatApplication
-import com.example.vatcalculator.databinding.FragmentCalculationBinding
 import com.example.vatcalculator.databinding.FragmentHistoryBinding
-import com.example.vatcalculator.databinding.FragmentSettingsBinding
 import com.example.vatcalculator.viewmodels.MainViewModel
 import com.example.vatcalculator.viewmodels.MainViewModelFactory
 
@@ -40,6 +38,12 @@ class HistoryFragment : Fragment() {
                 return when (menuItem.itemId) {
                     R.id.menu_filter -> {
                         // TODO Filter
+                        Log.d("TimeStamp Cur", System.currentTimeMillis().toString())
+                        var ts: Long = System.currentTimeMillis() - viewModel.historyMax
+
+                        Toast.makeText(context, viewModel.getDate(ts), Toast.LENGTH_SHORT).show()
+                        Log.d("TimeStamp Limit", ts.toString())
+                        viewModel.deleteOldHistory(ts)
                         true
                     }
                     R.id.menu_delete -> {

@@ -15,30 +15,38 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
     var sideTax = 0.0
     var showSide = false
     var saveHistory = false
-    var historyMax: Long = 604800000
-    var historyTimeStampLimit: Long = System.currentTimeMillis() - historyMax
+    var historyMax: Long = 20000
+
+    var isAscend = false
+    var isFilter = false
+
+    fun setHistoryMax(option: Int) {
+        when (option) {
+            1 -> historyMax = 86400000 // 1 day
+            2 -> historyMax = 604800000 // 1 week
+            3 -> historyMax = 1209600000 // 2 week
+            4 -> historyMax = 2678400000 // 1 month
+        }
+    }
 
     fun taxToString(tax: Double): String {
         return if ((tax * 100).toInt() % 100 == 0) "${tax.toInt()} %" else "$tax %"
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun Long.getDate(): String {
-        return SimpleDateFormat("dd.MM.yy").format(Date(this))
+    fun getDate(timeStamp: Long): String {
+        return SimpleDateFormat("dd.MM.yy").format(Date(timeStamp))
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun Long.getTime(): String {
-        return SimpleDateFormat("HH:mm").format(Date(this))
+    fun Long.getTime(): String {
+        return SimpleDateFormat("HH:mm:ss").format(Date(this))
     }
 
     fun saveCalculation(withTax: String, withoutTax: String, tax: String) {
-        val tsLong = System.currentTimeMillis()
-        Log.d("Time Stamp", tsLong.toString())
-        Log.d("Time Stamp to Date", historyTimeStampLimit.getDate())
-        Log.d("Time Stamp to Time", historyTimeStampLimit.getTime())
+        val timeStamp = System.currentTimeMillis()
         viewModelScope.launch {
-            calculationDao.insert(Calculation(tsLong, withTax, withoutTax, tax, false))
+            calculationDao.insert(Calculation(timeStamp, withTax, withoutTax, tax, false))
         }
     }
 
@@ -60,10 +68,28 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
         }
     }
 
+    fun deleteOldHistory(timeStampLimit: Long) {
+        Log.d("OUT Cur", "${System.currentTimeMillis()} - ${System.currentTimeMillis().getTime()}")
+        Log.d("OUT Old", "$timeStampLimit - ${timeStampLimit.getTime()}")
+        viewModelScope.launch {
+            Log.d(
+                "IN Cur",
+                "${System.currentTimeMillis()} - ${System.currentTimeMillis().getTime()}"
+            )
+            Log.d("IN Old", "$timeStampLimit - ${timeStampLimit.getTime()}")
+            calculationDao.deleteOld(timeStampLimit)
+        }
+    }
+
     val historyAsc: LiveData<List<Calculation>> = calculationDao.getAllAsc().asLiveData()
     val historyDesc: LiveData<List<Calculation>> = calculationDao.getAllDesc().asLiveData()
-    val historyLocked: LiveData<List<Calculation>> = calculationDao.getLocked().asLiveData()
+    val historyLockedAsc: LiveData<List<Calculation>> = calculationDao.getLockedAsc().asLiveData()
+    val historyLockedDesc: LiveData<List<Calculation>> = calculationDao.getLockedDesc().asLiveData()
 
+    /** This will invoke before viewModel refresh historyMax from sharedPref !!! (test on def values) */
+//    init {
+//        deleteOldHistory(System.currentTimeMillis() - historyMax)
+//    }
 }
 
 class MainViewModelFactory(private val calculationDao: CalculationDao) :
