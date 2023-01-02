@@ -15,11 +15,4 @@
     <string name="delete">Delete all unlocked</string>
     <string name="filter">Filter by locked</string>
 
-    <string-array name="languages">
-        <item>C</item>
-        <item>C++</item>
-        <item>Java</item>
-        <item>JavaScript</item>
-        <item>VisualBasic</item>
-    </string-array>
 </resources>

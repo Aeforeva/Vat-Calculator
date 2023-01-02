@@ -18,15 +18,27 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
     var saveHistory = false
     var historyMax: Long = 20000
 
-    var isAscend = false
-    var isFilter = false
+    val historyPeriod = MutableLiveData<Int>(0)
+    val historyPeriodString = MutableLiveData<String>("Don't save")
+
+    fun setHistoryPeriod(period: Int) {
+        historyPeriod.value = period
+        historyPeriodString.value = when (period) {
+            1 -> "1 Day"
+            2 -> "1 Week"
+            3 -> "1 Month"
+            4 -> "6 Month"
+            5 -> "1 Year"
+            else -> "Don't save"
+        }
+        Log.d("HP", historyPeriodString.value.toString())
+    }
 
     fun setHistoryMax(option: Int) {
         when (option) {
             1 -> historyMax = 86400000 // 1 day
             2 -> historyMax = 604800000 // 1 week
-            3 -> historyMax = 1209600000 // 2 week
-            4 -> historyMax = 2678400000 // 1 month
+            3 -> historyMax = 2678400000 // 1 month
         }
     }
 

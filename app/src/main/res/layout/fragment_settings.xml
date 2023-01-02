@@ -44,7 +44,8 @@
                     android:id="@+id/main_rate_tax_edit_text"
                     style="@style/Widget.Vat_Calculator.TextInputEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:maxLength="5" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
@@ -69,7 +70,8 @@
                     android:id="@+id/side_rate_tax_edit_text"
                     style="@style/Widget.Vat_Calculator.TextInputEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:maxLength="5" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.checkbox.MaterialCheckBox
@@ -108,12 +110,34 @@
                 android:text="Save history"
                 app:layout_constraintTop_toBottomOf="@id/history_check_box" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/history_limit"
+            <TextView
+                android:id="@+id/left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save history for:"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/history_switch" />
+
+            <TextView
+                android:id="@+id/right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.historyPeriodString}"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/history_switch" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/history_slider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"
-                app:layout_constraintTop_toBottomOf="@id/history_switch" />
+                android:stepSize="1"
+                android:value="@{viewModel.historyPeriod}"
+                android:valueFrom="0"
+                android:valueTo="5"
+                app:labelBehavior="floating"
+                app:layout_constraintTop_toBottomOf="@id/left" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
