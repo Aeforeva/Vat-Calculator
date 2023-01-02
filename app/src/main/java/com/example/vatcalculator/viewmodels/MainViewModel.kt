@@ -2,6 +2,7 @@ package com.example.vatcalculator.viewmodels
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
 import com.example.vatcalculator.room.Calculation
 import com.example.vatcalculator.room.CalculationDao

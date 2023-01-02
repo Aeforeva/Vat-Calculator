@@ -23,13 +23,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintWidth_percent="0.8">
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/input_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/input_hint"
+                android:textSize="18sp"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/sum_with_tax"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="8dp"
                 android:hint="@string/sum_with_tax"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/input_hint">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/sum_with_tax_edit_text"
@@ -68,7 +78,7 @@
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/buttons_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,23 +88,25 @@
                 android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@+id/tax" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/calc_side"
                 style="@style/Widget.Vat_Calculator.Buttons"
                 android:layout_width="0dp"
+                android:layout_height="68dp"
                 android:layout_marginEnd="4dp"
                 android:text="@{viewModel.taxToString(viewModel.sideTax)}"
-                android:visibility="visible"
+                app:buttonVisibility="@{viewModel.showSide}"
                 app:layout_constraintEnd_toStartOf="@id/cals_main"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/buttons_comment"
                 tools:text="10.55 %" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/cals_main"
                 style="@style/Widget.Vat_Calculator.Buttons"
                 android:layout_width="0dp"
+                android:layout_height="68dp"
                 android:layout_marginStart="4dp"
                 android:text="@{viewModel.taxToString(viewModel.mainTax)}"
                 app:layout_constraintEnd_toEndOf="parent"

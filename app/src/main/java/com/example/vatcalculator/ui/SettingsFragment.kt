@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
@@ -39,6 +40,25 @@ class SettingsFragment : Fragment() {
     ): View? {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
+
+        binding.sideRateCheckBox.setOnCheckedChangeListener { _, isOn ->
+            viewModel.showSide = isOn
+        }
+
+        binding.historySwitch.setOnCheckedChangeListener { _, isOn ->
+            if (isOn) {
+                Toast.makeText(context, "true", Toast.LENGTH_SHORT).show()
+                viewModel.saveHistory = true
+            } else {
+                Toast.makeText(context, "false", Toast.LENGTH_SHORT).show()
+                viewModel.saveHistory = false
+            }
+        }
     }
 
     override fun onDestroyView() {

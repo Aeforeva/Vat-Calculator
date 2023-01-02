@@ -1,23 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.example.vatcalculator.viewmodels.MainViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.SettingsFragment">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/settings"
-            android:textSize="32sp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.8">
 
-    </FrameLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/main_rate_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Main VAT rate:"
+                android:textSize="18sp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_rate_tax"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@{viewModel.taxToString(viewModel.mainTax)}"
+                app:layout_constraintTop_toBottomOf="@id/main_rate_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/main_rate_tax_edit_text"
+                    style="@style/Widget.Vat_Calculator.TextInputEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/side_rate_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Additional VAT rate:"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/main_rate_tax" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/side_rate_tax"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@{viewModel.taxToString(viewModel.sideTax)}"
+                app:layout_constraintTop_toBottomOf="@id/side_rate_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/side_rate_tax_edit_text"
+                    style="@style/Widget.Vat_Calculator.TextInputEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/side_rate_check_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="@{viewModel.showSide}"
+                android:text="Show additional VAT button"
+                app:layout_constraintTop_toBottomOf="@id/side_rate_tax" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/side_rate_check_box" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/history_check_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="@{viewModel.saveHistory}"
+                android:text="Save history"
+                app:layout_constraintTop_toBottomOf="@id/side_rate_check_box" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/history_check_box" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/history_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="@{viewModel.saveHistory}"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="Save history"
+                app:layout_constraintTop_toBottomOf="@id/history_check_box" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/history_limit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                app:layout_constraintTop_toBottomOf="@id/history_switch" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
