@@ -37,16 +37,6 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
         return if ((tax * 100).toInt() % 100 == 0) "${tax.toInt()} %" else "$tax %"
     }
 
-    @SuppressLint("SimpleDateFormat")
-    fun getDate(timeStamp: Long): String {
-        return SimpleDateFormat("dd.MM.yy").format(Date(timeStamp))
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    fun Long.getTime(): String {
-        return SimpleDateFormat("HH:mm:ss").format(Date(this))
-    }
-
     fun saveCalculation(withTax: String, withoutTax: String, tax: String) {
         val timeStamp = System.currentTimeMillis()
         viewModelScope.launch {
@@ -74,14 +64,7 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
 
     fun deleteOldHistory() {
         val timeStampLimit = System.currentTimeMillis() - historyMilliseconds
-        Log.d("OUT Cur", "${System.currentTimeMillis()} - ${System.currentTimeMillis().getTime()}")
-        Log.d("OUT Old", "$timeStampLimit - ${timeStampLimit.getTime()}")
         viewModelScope.launch {
-            Log.d(
-                "IN Cur",
-                "${System.currentTimeMillis()} - ${System.currentTimeMillis().getTime()}"
-            )
-            Log.d("IN Old", "$timeStampLimit - ${timeStampLimit.getTime()}")
             calculationDao.deleteOld(timeStampLimit)
         }
     }

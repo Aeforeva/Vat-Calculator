@@ -9,5 +9,5 @@ data class Calculation(
     val withTax : String,
     val withoutTax: String,
     val tax: String,
-    val isLocked: Boolean
+    var isLocked: Boolean
 )

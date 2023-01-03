@@ -36,6 +36,7 @@
             android:id="@+id/cacl_with_tax"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{calc.withTax}"
             app:layout_constraintBottom_toBottomOf="@id/cacl_date"
             app:layout_constraintEnd_toStartOf="@id/cacl_without_tax"
             app:layout_constraintStart_toEndOf="@id/cacl_date"
@@ -46,6 +47,7 @@
             android:id="@+id/cacl_without_tax"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{calc.withoutTax}"
             app:layout_constraintBottom_toBottomOf="@id/cacl_date"
             app:layout_constraintEnd_toStartOf="@id/cacl_tax"
             app:layout_constraintStart_toEndOf="@id/cacl_with_tax"
@@ -56,6 +58,7 @@
             android:id="@+id/cacl_tax"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{calc.tax}"
             app:layout_constraintBottom_toBottomOf="@id/cacl_date"
             app:layout_constraintEnd_toStartOf="@id/calc_is_locked"
             app:layout_constraintStart_toEndOf="@id/cacl_without_tax"
@@ -71,6 +74,7 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/cacl_time"
+            app:lockStatus="@{calc.isLocked}"
             tools:src="@drawable/lock_open" />
 
         <com.google.android.material.divider.MaterialDivider

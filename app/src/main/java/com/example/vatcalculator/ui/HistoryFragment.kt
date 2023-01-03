@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import com.example.vatcalculator.R
 import com.example.vatcalculator.VatApplication
+import com.example.vatcalculator.adapters.CalculationAdapter
 import com.example.vatcalculator.databinding.FragmentHistoryBinding
 import com.example.vatcalculator.viewmodels.MainViewModel
 import com.example.vatcalculator.viewmodels.MainViewModelFactory
@@ -64,13 +65,14 @@ class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("ASC", viewModel.historyAsc.toString())
-        viewModel.historyAsc.observe(viewLifecycleOwner) {
-            Log.d("ASC", it.toString())
+        val adapter = CalculationAdapter {
+            it.isLocked = !it.isLocked
+            viewModel.updateCalculation(it)
         }
-        Log.d("DESC", viewModel.historyDesc.toString())
-        viewModel.historyDesc.observe(viewLifecycleOwner) {
-            Log.d("DESC", it.toString())
+
+        binding.recycler.adapter = adapter
+        viewModel.historyAsc.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
         }
     }
 
