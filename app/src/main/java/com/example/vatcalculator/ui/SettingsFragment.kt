@@ -7,6 +7,7 @@ import android.text.InputFilter
 import android.text.Spanned
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
@@ -37,7 +38,7 @@ class SettingsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -47,24 +48,36 @@ class SettingsFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-//        binding.mainRateTaxEditText.filters = arrayOf<InputFilter>(MinMaxFilter(1, 100))
-        binding.mainRateTaxEditText.setOnKeyListener { view, keyCode, keyEvent ->
+        binding.mainRateTaxEditText.setOnKeyListener { taxView, keyCode, _ ->
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                var inputValue = binding.mainRateTaxEditText.text.toString().toDouble()
+                var inputValue = binding.mainRateTaxEditText.text.toString().toDoubleOrNull() ?: 0.0
                 inputValue = (inputValue * 100.0).roundToInt() / 100.0
-                viewModel.mainTax = inputValue
-                sharedPref.edit() { putInt(MAIN_TAX, (inputValue * 100).toInt()).apply() }
-                clearFocusAndHideKeyboard(view)
+                if (0 < inputValue && inputValue < 100) {
+                    viewModel.mainTax = inputValue
+                    binding.mainRateTax.hint = viewModel.taxToString(inputValue)
+                    sharedPref.edit() { putInt(MAIN_TAX, (inputValue * 100).toInt()).apply() }
+                    clearFocusAndHideKeyboard(taxView)
+                } else {
+                    Toast.makeText(context, getString(R.string.tax_err), Toast.LENGTH_SHORT).show()
+                    return@setOnKeyListener true
+                }
             }
             false
         }
 
-        binding.sideRateTaxEditText.setOnKeyListener { view, keyCode, keyEvent ->
+        binding.sideRateTaxEditText.setOnKeyListener { _, keyCode, _ ->
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                val inputValue = binding.sideRateTaxEditText.text.toString().toDouble()
-                viewModel.sideTax = inputValue
-                sharedPref.edit() { putInt(SIDE_TAX, (inputValue * 100).toInt()).apply() }
-                clearFocusAndHideKeyboard(view)
+                var inputValue = binding.sideRateTaxEditText.text.toString().toDoubleOrNull() ?: 0.0
+                inputValue = (inputValue * 100.0).roundToInt() / 100.0
+                if (0 < inputValue && inputValue < 100) {
+                    viewModel.sideTax = inputValue
+                    binding.sideRateTax.hint = viewModel.taxToString(inputValue)
+                    sharedPref.edit() { putInt(SIDE_TAX, (inputValue * 100).toInt()).apply() }
+                    clearFocusAndHideKeyboard(view)
+                } else {
+                    Toast.makeText(context, getString(R.string.tax_err), Toast.LENGTH_SHORT).show()
+                    return@setOnKeyListener true
+                }
             }
             false
         }
@@ -73,10 +86,12 @@ class SettingsFragment : Fragment() {
             viewModel.showSide.value = isOn
             sharedPref.edit() { putBoolean(SHOW_SIDE, isOn).apply() }
         }
+
         binding.historySwitch.setOnCheckedChangeListener { _, isOn ->
             viewModel.saveHistory.value = isOn
             sharedPref.edit() { putBoolean(SAVE_HISTORY, isOn).apply() }
         }
+
         binding.historySlider.addOnChangeListener(Slider.OnChangeListener { _, value, _ ->
             viewModel.setHistoryPeriod(value.toInt())
             viewModel.historyPeriodString.value = when (value.toInt()) {
@@ -90,7 +105,6 @@ class SettingsFragment : Fragment() {
             }
             sharedPref.edit() { putInt(HISTORY_PERIOD, value.toInt()).apply() }
         })
-
         binding.historySlider.setLabelFormatter { value: Float ->
             return@setLabelFormatter when (value.toInt()) {
                 0 -> getString(R.string.one_day)
@@ -117,6 +131,7 @@ class SettingsFragment : Fragment() {
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
+    //        binding.mainRateTaxEditText.filters = arrayOf<InputFilter>(MinMaxFilter(1, 100))
     // Custom class to define min and max for the edit text
     inner class MinMaxFilter(minValue: Int, maxValue: Int) : InputFilter {
         private var intMin: Int = minValue
