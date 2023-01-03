@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.vatcalculator.R
 import com.example.vatcalculator.VatApplication
 import com.example.vatcalculator.databinding.FragmentCalculationBinding
-import com.example.vatcalculator.databinding.FragmentSettingsBinding
 import com.example.vatcalculator.viewmodels.MainViewModel
 import com.example.vatcalculator.viewmodels.MainViewModelFactory
 import java.text.NumberFormat
@@ -59,7 +58,7 @@ class CalculationFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCalculationBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -68,26 +67,35 @@ class CalculationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
 
-        binding.sumWithTaxEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                clearEditTexts()
-                lastFocusedEditText = R.id.sum_with_tax_edit_text
-            }
-        }
-        binding.sumWithoutTaxEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                clearEditTexts()
-                lastFocusedEditText = R.id.sum_without_tax_edit_text
-            }
-        }
-        binding.taxEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                clearEditTexts()
-                lastFocusedEditText = R.id.tax_edit_text
-            }
-        }
+        focusHandler(binding.sumWithTaxEditText)
+        focusHandler(binding.sumWithoutTaxEditText)
+        focusHandler(binding.taxEditText)
+
+        enterHandler(binding.sumWithTaxEditText)
+        enterHandler(binding.sumWithoutTaxEditText)
+        enterHandler(binding.taxEditText)
+
         binding.calcSide.setOnClickListener { calcTax(viewModel.sideTax) }
         binding.calsMain.setOnClickListener { calcTax(viewModel.mainTax) }
+    }
+
+    private fun focusHandler(view: View) {
+        view.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                clearEditTexts()
+                lastFocusedEditText = view.id
+            }
+        }
+    }
+
+    private fun enterHandler(view: View) {
+        view.setOnKeyListener { _, keyCode, _ ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                calcTax(viewModel.mainTax)
+                return@setOnKeyListener true
+            }
+            false
+        }
     }
 
     override fun onDestroyView() {
@@ -117,7 +125,7 @@ class CalculationFragment : Fragment() {
         return NumberFormat.getCurrencyInstance().format(num)
     }
 
-    /** calc fun that take tax rate as param (20% = 20) */
+    /** calc fun that take tax rate as param (20% = 20.00) */
     private fun calcTax(taxInput: Double) {
         val tax = taxInput / 100
         // Get doubles from all 3 EditText
