@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -28,9 +27,20 @@ class MainActivity : AppCompatActivity() {
         sharedPref = getPreferences(MODE_PRIVATE)
         viewModel.mainTax = sharedPref.getInt(MAIN_TAX, 2000).toDouble() / 100
         viewModel.sideTax = sharedPref.getInt(SIDE_TAX, 1000).toDouble() / 100
-        viewModel.showSide = sharedPref.getBoolean(SHOW_SIDE, true)
-        viewModel.saveHistory = sharedPref.getBoolean(SAVE_HISTORY, true)
-//        viewModel.historyMax = sharedPref.getLong(HISTORY_MAX, 604800000)
+        viewModel.showSide.value = sharedPref.getBoolean(SHOW_SIDE, true)
+        viewModel.saveHistory.value = sharedPref.getBoolean(SAVE_HISTORY, true)
+        viewModel.setHistoryPeriod(sharedPref.getInt(HISTORY_PERIOD, 1))
+
+        viewModel.historyPeriodString.value = when (sharedPref.getInt(HISTORY_PERIOD, 1)) {
+            0 -> getString(R.string.one_day)
+            1 -> getString(R.string.one_week)
+            2 -> getString(R.string.one_month)
+            3 -> getString(R.string.three_month)
+            4 -> getString(R.string.six_month)
+            else -> "30 sec"
+//            else -> getString(R.string.one_year)
+        }
+        viewModel.deleteOldHistory()
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment

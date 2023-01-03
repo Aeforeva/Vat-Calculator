@@ -5,4 +5,4 @@ const val SIDE_TAX = "side_tax"
 
 const val SHOW_SIDE = "show_side"
 const val SAVE_HISTORY = "save_history"
-const val HISTORY_MAX = "history_max"
+const val HISTORY_PERIOD = "history_period"

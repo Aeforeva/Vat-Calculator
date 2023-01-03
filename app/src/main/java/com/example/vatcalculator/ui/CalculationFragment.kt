@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.vatcalculator.R
 import com.example.vatcalculator.VatApplication
 import com.example.vatcalculator.databinding.FragmentCalculationBinding
+import com.example.vatcalculator.databinding.FragmentSettingsBinding
 import com.example.vatcalculator.viewmodels.MainViewModel
 import com.example.vatcalculator.viewmodels.MainViewModelFactory
 import java.text.NumberFormat
@@ -149,7 +150,7 @@ class CalculationFragment : Fragment() {
         clearFocus()
 
         /** Save to database if enabled */
-        if (viewModel.saveHistory) {
+        if (viewModel.saveHistory.value!!) {
             viewModel.saveCalculation(
                 binding.sumWithTaxEditText.text.toString(),
                 binding.sumWithoutTaxEditText.text.toString(),

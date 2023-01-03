@@ -2,7 +2,6 @@ package com.example.vatcalculator.viewmodels
 
 import android.annotation.SuppressLint
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
 import com.example.vatcalculator.room.Calculation
 import com.example.vatcalculator.room.CalculationDao
@@ -14,33 +13,25 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
 
     var mainTax = 0.0
     var sideTax = 0.0
-    var showSide = false
-    var saveHistory = false
-    var historyMax: Long = 20000
-
+    val showSide = MutableLiveData(false)
+    val saveHistory = MutableLiveData(false)
     val historyPeriod = MutableLiveData<Int>(0)
-    val historyPeriodString = MutableLiveData<String>("Don't save")
+    val historyPeriodString = MutableLiveData<String>("")
+    var historyMilliseconds: Long = 31536000000 // History period in milliseconds
 
     fun setHistoryPeriod(period: Int) {
         historyPeriod.value = period
-        historyPeriodString.value = when (period) {
-            1 -> "1 Day"
-            2 -> "1 Week"
-            3 -> "1 Month"
-            4 -> "6 Month"
-            5 -> "1 Year"
-            else -> "Don't save"
+        historyMilliseconds = when (period) {
+            0 -> 86400000 // 1 day
+            1 -> 604800000 // 1 Week
+            2 -> 2678400000 // 1 Month
+            3 -> 7884000000 // 3 Month
+            4 -> 15768000000 // 6 Month
+            else -> 30_000 // 30sec
+//            else -> 31536000000 // 1 Year
         }
-        Log.d("HP", historyPeriodString.value.toString())
     }
 
-    fun setHistoryMax(option: Int) {
-        when (option) {
-            1 -> historyMax = 86400000 // 1 day
-            2 -> historyMax = 604800000 // 1 week
-            3 -> historyMax = 2678400000 // 1 month
-        }
-    }
 
     fun taxToString(tax: Double): String {
         return if ((tax * 100).toInt() % 100 == 0) "${tax.toInt()} %" else "$tax %"
@@ -81,7 +72,8 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
         }
     }
 
-    fun deleteOldHistory(timeStampLimit: Long) {
+    fun deleteOldHistory() {
+        val timeStampLimit = System.currentTimeMillis() - historyMilliseconds
         Log.d("OUT Cur", "${System.currentTimeMillis()} - ${System.currentTimeMillis().getTime()}")
         Log.d("OUT Old", "$timeStampLimit - ${timeStampLimit.getTime()}")
         viewModelScope.launch {

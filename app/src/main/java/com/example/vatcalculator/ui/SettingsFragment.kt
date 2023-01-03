@@ -7,19 +7,16 @@ import android.text.InputFilter
 import android.text.Spanned
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.edit
-import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.vatcalculator.SHOW_SIDE
-import com.example.vatcalculator.VatApplication
+import com.example.vatcalculator.*
 import com.example.vatcalculator.databinding.FragmentSettingsBinding
 import com.example.vatcalculator.viewmodels.MainViewModel
 import com.example.vatcalculator.viewmodels.MainViewModelFactory
 import com.google.android.material.slider.Slider
+import kotlin.math.roundToInt
 
 class SettingsFragment : Fragment() {
 
@@ -35,7 +32,6 @@ class SettingsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPref = requireActivity().getPreferences(AppCompatActivity.MODE_PRIVATE)
-        sharedPref.edit() { putBoolean(SHOW_SIDE, true).apply() }
     }
 
     override fun onCreateView(
@@ -51,66 +47,89 @@ class SettingsFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.mainRateTaxEditText.filters = arrayOf<InputFilter>(MinMaxFilter(1, 100))
+//        binding.mainRateTaxEditText.filters = arrayOf<InputFilter>(MinMaxFilter(1, 100))
         binding.mainRateTaxEditText.setOnKeyListener { view, keyCode, keyEvent ->
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                val text = binding.mainRateTaxEditText.text
-                Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-                binding.mainRateTaxEditText.clearFocus()
-                val inputMethodManager =
-                    requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+                var inputValue = binding.mainRateTaxEditText.text.toString().toDouble()
+                inputValue = (inputValue * 100.0).roundToInt() / 100.0
+                viewModel.mainTax = inputValue
+                sharedPref.edit() { putInt(MAIN_TAX, (inputValue * 100).toInt()).apply() }
+                clearFocusAndHideKeyboard(view)
             }
             false
         }
 
         binding.sideRateTaxEditText.setOnKeyListener { view, keyCode, keyEvent ->
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                val text = binding.sideRateTaxEditText.text
-                Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-                binding.sideRateTaxEditText.clearFocus()
-                val inputMethodManager =
-                    requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+                val inputValue = binding.sideRateTaxEditText.text.toString().toDouble()
+                viewModel.sideTax = inputValue
+                sharedPref.edit() { putInt(SIDE_TAX, (inputValue * 100).toInt()).apply() }
+                clearFocusAndHideKeyboard(view)
             }
             false
         }
 
-        binding.sideRateCheckBox.setOnCheckedChangeListener { _, isOn -> viewModel.showSide = isOn }
-
+        binding.sideRateSwitch.setOnCheckedChangeListener { _, isOn ->
+            viewModel.showSide.value = isOn
+            sharedPref.edit() { putBoolean(SHOW_SIDE, isOn).apply() }
+        }
+        binding.historySwitch.setOnCheckedChangeListener { _, isOn ->
+            viewModel.saveHistory.value = isOn
+            sharedPref.edit() { putBoolean(SAVE_HISTORY, isOn).apply() }
+        }
         binding.historySlider.addOnChangeListener(Slider.OnChangeListener { _, value, _ ->
             viewModel.setHistoryPeriod(value.toInt())
+            viewModel.historyPeriodString.value = when (value.toInt()) {
+                0 -> getString(R.string.one_day)
+                1 -> getString(R.string.one_week)
+                2 -> getString(R.string.one_month)
+                3 -> getString(R.string.three_month)
+                4 -> getString(R.string.six_month)
+                else -> "30 sec"
+//            else -> getString(R.string.one_year)
+            }
+            sharedPref.edit() { putInt(HISTORY_PERIOD, value.toInt()).apply() }
         })
 
         binding.historySlider.setLabelFormatter { value: Float ->
             return@setLabelFormatter when (value.toInt()) {
-                1 -> "1 Day"
-                2 -> "1 Week"
-                3 -> "1 Month"
-                4 -> "6 Month"
-                5 -> "1 Year"
-                else -> "Don't save"
+                0 -> getString(R.string.one_day)
+                1 -> getString(R.string.one_week)
+                2 -> getString(R.string.one_month)
+                3 -> getString(R.string.three_month)
+                4 -> getString(R.string.six_month)
+                else -> "30 sec"
+//            else -> getString(R.string.one_year)
             }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.deleteOldHistory()
         _binding = null
     }
 
+    private fun clearFocusAndHideKeyboard(view: View) {
+        view.clearFocus()
+        val inputMethodManager =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
     // Custom class to define min and max for the edit text
-    inner class MinMaxFilter() : InputFilter {
-        private var intMin: Int = 0
-        private var intMax: Int = 0
+    inner class MinMaxFilter(minValue: Int, maxValue: Int) : InputFilter {
+        private var intMin: Int = minValue
+        private var intMax: Int = maxValue
 
-        // Initialized
-        constructor(minValue: Int, maxValue: Int) : this() {
-            this.intMin = minValue
-            this.intMax = maxValue
-        }
-
-        override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dStart: Int, dEnd: Int): CharSequence? {
+        override fun filter(
+            source: CharSequence,
+            start: Int,
+            end: Int,
+            dest: Spanned,
+            dStart: Int,
+            dEnd: Int
+        ): CharSequence? {
             try {
                 val input = Integer.parseInt(dest.toString() + source.toString())
                 if (isInRange(intMin, intMax, input)) {

@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:text="Main VAT rate:"
+                android:text="Set Main VAT rate:"
                 android:textSize="18sp"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +36,7 @@
                 android:id="@+id/main_rate_tax"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:hint="@{viewModel.taxToString(viewModel.mainTax)}"
                 app:layout_constraintTop_toBottomOf="@id/main_rate_hint">
 
@@ -48,21 +48,33 @@
                     android:maxLength="5" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/side_rate_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="@{viewModel.showSide}"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="Show additional VAT button"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/main_rate_tax" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/side_rate_hint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:enabled="@{viewModel.showSide}"
                 android:gravity="center"
-                android:text="Additional VAT rate:"
+                android:text="Set Additional VAT rate:"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@id/main_rate_tax" />
+                app:layout_constraintTop_toBottomOf="@id/side_rate_switch" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/side_rate_tax"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="0dp"
+                android:enabled="@{viewModel.showSide}"
                 android:hint="@{viewModel.taxToString(viewModel.sideTax)}"
                 app:layout_constraintTop_toBottomOf="@id/side_rate_hint">
 
@@ -74,33 +86,8 @@
                     android:maxLength="5" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.checkbox.MaterialCheckBox
-                android:id="@+id/side_rate_check_box"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:checked="@{viewModel.showSide}"
-                android:text="Show additional VAT button"
-                app:layout_constraintTop_toBottomOf="@id/side_rate_tax" />
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/side_rate_check_box" />
-
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/history_check_box"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:checked="@{viewModel.saveHistory}"
-                android:text="Save history"
-                app:layout_constraintTop_toBottomOf="@id/side_rate_check_box" />
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/history_check_box" />
-
             <com.google.android.material.switchmaterial.SwitchMaterial
+                android:textSize="18sp"
                 android:id="@+id/history_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -108,30 +95,36 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:text="Save history"
-                app:layout_constraintTop_toBottomOf="@id/history_check_box" />
+                app:layout_constraintTop_toBottomOf="@id/side_rate_tax" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save history for:"
+                android:enabled="@{viewModel.saveHistory}"
+                android:paddingLeft="8dp"
+                android:text="saved period"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/history_switch" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:enabled="@{viewModel.saveHistory}"
+                android:paddingRight="8dp"
                 android:text="@{viewModel.historyPeriodString}"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/history_switch" />
+                app:layout_constraintTop_toBottomOf="@id/history_switch"
+                tools:text="1 Week" />
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/history_slider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="@{viewModel.saveHistory}"
                 android:stepSize="1"
                 android:value="@{viewModel.historyPeriod}"
                 android:valueFrom="0"

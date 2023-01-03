@@ -27,6 +27,7 @@ class HistoryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.deleteOldHistory()
 
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
@@ -37,13 +38,7 @@ class HistoryFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.menu_filter -> {
-                        // TODO Filter
-                        Log.d("TimeStamp Cur", System.currentTimeMillis().toString())
-                        var ts: Long = System.currentTimeMillis() - viewModel.historyMax
-
-                        Toast.makeText(context, viewModel.getDate(ts), Toast.LENGTH_SHORT).show()
-                        Log.d("TimeStamp Limit", ts.toString())
-                        viewModel.deleteOldHistory(ts)
+                        viewModel.deleteOldHistory()
                         true
                     }
                     R.id.menu_delete -> {
