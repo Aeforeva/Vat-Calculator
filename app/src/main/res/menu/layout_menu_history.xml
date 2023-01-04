@@ -3,9 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_sort"
+        android:icon="@drawable/menu_sort"
+        android:title="@string/sort"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/menu_filter"
-        android:icon="@drawable/menu_filter_on"
+        android:icon="@drawable/menu_filter_off"
         android:title="@string/filter"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_delete"

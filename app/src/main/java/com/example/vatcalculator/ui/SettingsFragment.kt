@@ -101,7 +101,7 @@ class SettingsFragment : Fragment() {
                 3 -> getString(R.string.three_month)
                 4 -> getString(R.string.six_month)
                 else -> "30 sec"
-//            else -> getString(R.string.one_year)
+//            else -> getString(R.string.one_year) // TODO
             }
             sharedPref.edit() { putInt(HISTORY_PERIOD, value.toInt()).apply() }
         })
@@ -113,7 +113,7 @@ class SettingsFragment : Fragment() {
                 3 -> getString(R.string.three_month)
                 4 -> getString(R.string.six_month)
                 else -> "30 sec"
-//            else -> getString(R.string.one_year)
+//            else -> getString(R.string.one_year) // TODO
             }
         }
     }

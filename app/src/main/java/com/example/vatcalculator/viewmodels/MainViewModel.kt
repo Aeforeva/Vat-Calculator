@@ -1,12 +1,9 @@
 package com.example.vatcalculator.viewmodels
 
-import android.annotation.SuppressLint
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.vatcalculator.room.Calculation
 import com.example.vatcalculator.room.CalculationDao
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.*
 
 class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
@@ -28,7 +25,7 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
             3 -> 7884000000 // 3 Month
             4 -> 15768000000 // 6 Month
             else -> 30_000 // 30sec
-//            else -> 31536000000 // 1 Year
+//            else -> 31536000000 // 1 Year // TODO
         }
     }
 
@@ -69,6 +66,8 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
         }
     }
 
+    var isFilterOn = false
+    var isSortAsc = false
     val historyAsc: LiveData<List<Calculation>> = calculationDao.getAllAsc().asLiveData()
     val historyDesc: LiveData<List<Calculation>> = calculationDao.getAllDesc().asLiveData()
     val historyLockedAsc: LiveData<List<Calculation>> = calculationDao.getLockedAsc().asLiveData()

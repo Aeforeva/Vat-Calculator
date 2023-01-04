@@ -14,6 +14,7 @@
     <string name="symbol_strait">▲</string>
     <string name="delete">Delete all unlocked</string>
     <string name="filter">Filter by locked</string>
+    <string name="sort">Sort</string>
 
     <string name="tax_err">Input value 0.01 – 99.99</string>
     <string name="one_day">1 Day</string>
