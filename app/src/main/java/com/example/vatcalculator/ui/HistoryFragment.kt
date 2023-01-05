@@ -1,25 +1,20 @@
 package com.example.vatcalculator.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.coroutineScope
 import com.example.vatcalculator.R
 import com.example.vatcalculator.VatApplication
 import com.example.vatcalculator.adapters.CalculationAdapter
 import com.example.vatcalculator.databinding.FragmentHistoryBinding
 import com.example.vatcalculator.viewmodels.MainViewModel
 import com.example.vatcalculator.viewmodels.MainViewModelFactory
-import kotlinx.coroutines.launch
+import java.util.*
 
 class HistoryFragment : Fragment() {
 
@@ -34,6 +29,7 @@ class HistoryFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.deleteOldHistory()
+        val current: Locale = resources.configuration.locale
 
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {

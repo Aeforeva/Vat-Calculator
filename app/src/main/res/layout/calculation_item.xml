@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="calc"
-            type="com.example.vatcalculator.room.Calculation" />
+            name="isLocked"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,36 +34,39 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/cacl_with_tax"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{calc.withTax}"
+            android:layout_marginStart="4dp"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="@id/cacl_date"
             app:layout_constraintEnd_toStartOf="@id/cacl_without_tax"
             app:layout_constraintStart_toEndOf="@id/cacl_date"
             app:layout_constraintTop_toTopOf="@id/cacl_time"
-            tools:text="$12 000 000" />
+            tools:text="$12,000,000.00" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/cacl_without_tax"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{calc.withoutTax}"
+            android:layout_marginStart="4dp"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="@id/cacl_date"
             app:layout_constraintEnd_toStartOf="@id/cacl_tax"
             app:layout_constraintStart_toEndOf="@id/cacl_with_tax"
             app:layout_constraintTop_toTopOf="@id/cacl_time"
-            tools:text="$10 000 000" />
+            tools:text="$10,000,000.00" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/cacl_tax"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{calc.tax}"
+            android:layout_marginStart="4dp"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="@id/cacl_date"
             app:layout_constraintEnd_toStartOf="@id/calc_is_locked"
             app:layout_constraintStart_toEndOf="@id/cacl_without_tax"
             app:layout_constraintTop_toTopOf="@id/cacl_time"
-            tools:text="$2 000 000" />
+            tools:text="$2,000,000.00" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/calc_is_locked"
@@ -74,7 +77,7 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/cacl_time"
-            app:lockStatus="@{calc.isLocked}"
+            app:lockStatus="@{isLocked}"
             tools:src="@drawable/lock_open" />
 
         <com.google.android.material.divider.MaterialDivider
