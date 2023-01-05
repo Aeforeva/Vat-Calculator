@@ -125,7 +125,7 @@ class CalculationFragment : Fragment() {
         return NumberFormat.getCurrencyInstance().format(num)
     }
 
-    /** calc fun that take tax rate as param (20% = 20.00) */
+    /** Calculation function that take tax rate as param (20% = 20.00) */
     private fun calcTax(taxInput: Double) {
         val tax = taxInput / 100
         // Get doubles from all 3 EditText
@@ -157,7 +157,7 @@ class CalculationFragment : Fragment() {
         }
         clearFocus()
 
-        /** Save to database if enabled */
+        /** Save to database if saveHistory enabled */
         if (viewModel.saveHistory.value!!) {
             viewModel.saveCalculation(
                 binding.sumWithTaxEditText.text.toString(),

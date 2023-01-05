@@ -1,5 +1,6 @@
 package com.example.vatcalculator.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -13,8 +14,11 @@ import com.example.vatcalculator.R
 import com.example.vatcalculator.VatApplication
 import com.example.vatcalculator.adapters.CalculationAdapter
 import com.example.vatcalculator.databinding.FragmentHistoryBinding
+import com.example.vatcalculator.room.Calculation
 import com.example.vatcalculator.viewmodels.MainViewModel
 import com.example.vatcalculator.viewmodels.MainViewModelFactory
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+
 
 class HistoryFragment : Fragment() {
 
@@ -51,8 +55,7 @@ class HistoryFragment : Fragment() {
                         true
                     }
                     R.id.menu_delete -> {
-                        // TODO Dialog to confirm delete
-                        viewModel.deleteHistory()
+                        dialogDeleteAll(requireContext())
                         true
                     }
                     else -> false
@@ -89,14 +92,53 @@ class HistoryFragment : Fragment() {
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     /** This is awkward, have to move it from onViewCreated to use it in onMenuItemSelected */
-    private val adapter = CalculationAdapter ({
+    private val adapter = CalculationAdapter({
         it.isLocked = !it.isLocked
         viewModel.updateCalculation(it)
-    },{
+    }, {
         Toast.makeText(context, it.timeStamp.toString(), Toast.LENGTH_SHORT).show()
-        //TODO Dialog with full info
+        dialogOnLongClick(it, requireContext())
     })
+
+    private fun dialogOnLongClick(calculation: Calculation, context: Context) {
+        MaterialAlertDialogBuilder(context)
+            .setIcon(R.drawable.menu_history)
+            .setTitle("${viewModel.getTime(calculation.timeStamp)}   ${viewModel.getDate(calculation.timeStamp)}")
+            .setMessage(
+                "${calculation.withTax}   ${getString(R.string.sum_with_tax)}\n" +
+                        "${calculation.withoutTax}   ${getString(R.string.sum_without_tax)}\n" +
+                        "${calculation.tax}   ${getString(R.string.tax)}"
+            )
+            .setNeutralButton(getString(R.string.delete)) { dialog, _ ->
+                viewModel.deleteCalculation(calculation)
+                dialog.dismiss()
+            }
+            .setPositiveButton("Dismiss") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun dialogDeleteAll(context: Context) {
+        MaterialAlertDialogBuilder(context)
+            .setIcon(R.drawable.menu_delete)
+            .setTitle(getString(R.string.delete_all))
+            .setMessage("You about to delete all UNLOCKED history records, are you sure ?")
+            .setNegativeButton(getString(android.R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(getString(android.R.string.ok)) { dialog, _ ->
+                Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+            .show()
+    }
 
     private fun submitCorrespondingList() {
         viewModel.historyAsc.removeObservers(viewLifecycleOwner)
@@ -125,11 +167,6 @@ class HistoryFragment : Fragment() {
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
 

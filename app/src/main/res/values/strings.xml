@@ -12,7 +12,8 @@
 
     <string name="symbol_revers">▼</string>
     <string name="symbol_strait">▲</string>
-    <string name="delete">Delete all unlocked</string>
+    <string name="delete">Delete</string>
+    <string name="delete_all">Delete all unlocked</string>
     <string name="filter">Filter by locked</string>
     <string name="sort">Sort</string>
 

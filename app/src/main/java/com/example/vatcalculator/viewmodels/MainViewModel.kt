@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.example.vatcalculator.room.Calculation
 import com.example.vatcalculator.room.CalculationDao
 import kotlinx.coroutines.launch
+import java.text.DateFormat
 import java.util.*
 
 class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
@@ -29,7 +30,6 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
         }
     }
 
-
     fun taxToString(tax: Double): String {
         return if ((tax * 100).toInt() % 100 == 0) "${tax.toInt()} %" else "$tax %"
     }
@@ -39,6 +39,15 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
         viewModelScope.launch {
             calculationDao.insert(Calculation(timeStamp, withTax, withoutTax, tax, false))
         }
+    }
+
+    // Only for dialog, for item in list corresponding functions in CalculationAdapter
+    fun getTime(timeStamp: Long): String {
+        return DateFormat.getTimeInstance(DateFormat.SHORT).format(Date(timeStamp))
+    }
+
+    fun getDate(timeStamp: Long): String {
+        return DateFormat.getDateInstance(DateFormat.LONG).format(Date(timeStamp))
     }
 
     fun updateCalculation(calculation: Calculation) {
@@ -73,7 +82,7 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
     val historyLockedAsc: LiveData<List<Calculation>> = calculationDao.getLockedAsc().asLiveData()
     val historyLockedDesc: LiveData<List<Calculation>> = calculationDao.getLockedDesc().asLiveData()
 
-    /** This will invoke before viewModel refresh historyMax from sharedPref !!! (test on def values) */
+    /** This will invoke before viewModel gets historyMax from sharedPref !!! (test on def values) */
 //    init {
 //        deleteOldHistory(System.currentTimeMillis() - historyMax)
 //    }

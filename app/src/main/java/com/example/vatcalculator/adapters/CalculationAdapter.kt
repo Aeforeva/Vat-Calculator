@@ -64,13 +64,12 @@ class CalculationAdapter(private var onClicked: (Calculation) -> Unit, private v
 }
 
 @SuppressLint("SimpleDateFormat")
-fun getDate(timeStamp: Long): String {
-    return DateFormat.getDateInstance(DateFormat.SHORT).format(Date(timeStamp))
-}
-
-@SuppressLint("SimpleDateFormat")
 fun getTime(timeStamp: Long): String {
     return SimpleDateFormat("HH:mm").format(Date(timeStamp))
+}
+
+fun getDate(timeStamp: Long): String {
+    return DateFormat.getDateInstance(DateFormat.SHORT).format(Date(timeStamp))
 }
 
 fun trimString(text: String): String {
