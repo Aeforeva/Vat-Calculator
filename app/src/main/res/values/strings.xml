@@ -9,13 +9,14 @@
     <string name="tax">VAT</string>
     <string name="buttons_comment">Calculate by:</string>
     <string name="empty_input_msg">Input some values</string>
-
-    <string name="symbol_revers">▼</string>
-    <string name="symbol_strait">▲</string>
     <string name="delete">Delete</string>
-    <string name="delete_all">Delete all unlocked</string>
-    <string name="filter">Filter by locked</string>
+
     <string name="sort">Sort</string>
+    <string name="filter">Filter by locked</string>
+    <string name="delete_all">Delete all unlocked</string>
+    <string name="delete_warning">You about to delete all UNLOCKED history records, are you sure ?</string>
+    <string name="history_deleted">History deleted</string>
+    <string name="dismiss">Dismiss</string>
 
     <string name="tax_err">Input value 0.01 – 99.99</string>
     <string name="one_day">1 Day</string>

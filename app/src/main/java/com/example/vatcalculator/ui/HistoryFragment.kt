@@ -1,9 +1,8 @@
 package com.example.vatcalculator.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
+import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -18,6 +17,7 @@ import com.example.vatcalculator.room.Calculation
 import com.example.vatcalculator.viewmodels.MainViewModel
 import com.example.vatcalculator.viewmodels.MainViewModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 
 
 class HistoryFragment : Fragment() {
@@ -55,7 +55,7 @@ class HistoryFragment : Fragment() {
                         true
                     }
                     R.id.menu_delete -> {
-                        dialogDeleteAll(requireContext())
+                        dialogDeleteAll()
                         true
                     }
                     else -> false
@@ -102,12 +102,11 @@ class HistoryFragment : Fragment() {
         it.isLocked = !it.isLocked
         viewModel.updateCalculation(it)
     }, {
-        Toast.makeText(context, it.timeStamp.toString(), Toast.LENGTH_SHORT).show()
-        dialogOnLongClick(it, requireContext())
+        dialogOnLongClick(it)
     })
 
-    private fun dialogOnLongClick(calculation: Calculation, context: Context) {
-        MaterialAlertDialogBuilder(context)
+    private fun dialogOnLongClick(calculation: Calculation) {
+        MaterialAlertDialogBuilder(requireContext())
             .setIcon(R.drawable.menu_history)
             .setTitle("${viewModel.getTime(calculation.timeStamp)}   ${viewModel.getDate(calculation.timeStamp)}")
             .setMessage(
@@ -119,22 +118,23 @@ class HistoryFragment : Fragment() {
                 viewModel.deleteCalculation(calculation)
                 dialog.dismiss()
             }
-            .setPositiveButton("Dismiss") { dialog, _ ->
+            .setPositiveButton(getString(R.string.dismiss)) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
     }
 
-    private fun dialogDeleteAll(context: Context) {
-        MaterialAlertDialogBuilder(context)
+    private fun dialogDeleteAll() {
+        MaterialAlertDialogBuilder(requireContext())
             .setIcon(R.drawable.menu_delete)
             .setTitle(getString(R.string.delete_all))
-            .setMessage("You about to delete all UNLOCKED history records, are you sure ?")
+            .setMessage(getString(R.string.delete_warning))
             .setNegativeButton(getString(android.R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
             .setPositiveButton(getString(android.R.string.ok)) { dialog, _ ->
-                Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show()
+                makeSnackOnTop(getString(R.string.history_deleted))
+//                viewModel.deleteHistory() // TODO turn it on
                 dialog.dismiss()
             }
             .show()
@@ -167,6 +167,16 @@ class HistoryFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun makeSnackOnTop(text: String) {
+        val snack: Snackbar =
+            Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT)
+        val view = snack.view
+        val params = view.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.TOP
+        view.layoutParams = params
+        snack.show()
     }
 }
 

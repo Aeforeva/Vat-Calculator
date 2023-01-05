@@ -7,7 +7,6 @@ import android.text.InputFilter
 import android.text.Spanned
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
@@ -17,6 +16,7 @@ import com.example.vatcalculator.databinding.FragmentSettingsBinding
 import com.example.vatcalculator.viewmodels.MainViewModel
 import com.example.vatcalculator.viewmodels.MainViewModelFactory
 import com.google.android.material.slider.Slider
+import com.google.android.material.snackbar.Snackbar
 import kotlin.math.roundToInt
 
 class SettingsFragment : Fragment() {
@@ -58,7 +58,7 @@ class SettingsFragment : Fragment() {
                     sharedPref.edit() { putInt(MAIN_TAX, (inputValue * 100).toInt()).apply() }
                     clearFocusAndHideKeyboard(taxView)
                 } else {
-                    Toast.makeText(context, getString(R.string.tax_err), Toast.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, R.string.tax_err, Snackbar.LENGTH_LONG).show()
                     return@setOnKeyListener true
                 }
             }
@@ -75,7 +75,7 @@ class SettingsFragment : Fragment() {
                     sharedPref.edit() { putInt(SIDE_TAX, (inputValue * 100).toInt()).apply() }
                     clearFocusAndHideKeyboard(view)
                 } else {
-                    Toast.makeText(context, getString(R.string.tax_err), Toast.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, R.string.tax_err, Snackbar.LENGTH_LONG).show()
                     return@setOnKeyListener true
                 }
             }

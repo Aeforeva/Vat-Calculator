@@ -2,7 +2,6 @@ package com.example.vatcalculator.ui
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -14,7 +13,9 @@ import com.example.vatcalculator.VatApplication
 import com.example.vatcalculator.databinding.FragmentCalculationBinding
 import com.example.vatcalculator.viewmodels.MainViewModel
 import com.example.vatcalculator.viewmodels.MainViewModelFactory
+import com.google.android.material.snackbar.Snackbar
 import java.text.NumberFormat
+
 
 class CalculationFragment : Fragment() {
 
@@ -134,7 +135,8 @@ class CalculationFragment : Fragment() {
         val c = binding.taxEditText.text.toString().toDoubleOrNull()
         // Check user input
         if (a == null && b == null && c == null) {
-            Toast.makeText(context, getString(R.string.empty_input_msg), Toast.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, R.string.empty_input_msg, Snackbar.LENGTH_SHORT)
+                .setAction(getString(android.R.string.ok)) {}.show()
             return
         }
         // select what to calc based on last focused EditText
