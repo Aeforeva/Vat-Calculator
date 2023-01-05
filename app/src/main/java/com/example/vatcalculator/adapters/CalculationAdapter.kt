@@ -9,11 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.vatcalculator.databinding.CalculationItemBinding
 import com.example.vatcalculator.room.Calculation
 import java.text.DateFormat
-import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CalculationAdapter(private var onClicked: (Calculation) -> Unit) :
+class CalculationAdapter(private var onClicked: (Calculation) -> Unit, private var onLongClicked: (Calculation) -> Unit) :
     ListAdapter<Calculation, CalculationAdapter.CalculationViewHolder>(DiffCallback) {
 
     class CalculationViewHolder(var binding: CalculationItemBinding) :
@@ -44,6 +43,10 @@ class CalculationAdapter(private var onClicked: (Calculation) -> Unit) :
             onClicked(current)
             notifyItemChanged(position)
         }
+        holder.itemView.setOnLongClickListener {
+            onLongClicked(current)
+            true
+        }
         holder.bind(current)
     }
 
@@ -62,8 +65,7 @@ class CalculationAdapter(private var onClicked: (Calculation) -> Unit) :
 
 @SuppressLint("SimpleDateFormat")
 fun getDate(timeStamp: Long): String {
-    val dateFormat = DateFormat.getDateInstance(DateFormat.SHORT)
-    return dateFormat.format(Date(timeStamp))
+    return DateFormat.getDateInstance(DateFormat.SHORT).format(Date(timeStamp))
 }
 
 @SuppressLint("SimpleDateFormat")
