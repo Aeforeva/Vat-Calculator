@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputFilter
-import android.text.Spanned
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
@@ -48,6 +47,7 @@ class SettingsFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        binding.mainRateTaxEditText.filters = arrayOf<InputFilter>(InputFilterMinMax(0.01, 99.99))
         binding.mainRateTaxEditText.setOnKeyListener { taxView, keyCode, _ ->
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
                 var inputValue = binding.mainRateTaxEditText.text.toString().toDoubleOrNull() ?: 0.0
@@ -129,37 +129,5 @@ class SettingsFragment : Fragment() {
         val inputMethodManager =
             requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    //        binding.mainRateTaxEditText.filters = arrayOf<InputFilter>(MinMaxFilter(1, 100))
-    // Custom class to define min and max for the edit text
-    inner class MinMaxFilter(minValue: Int, maxValue: Int) : InputFilter {
-        private var intMin: Int = minValue
-        private var intMax: Int = maxValue
-
-        override fun filter(
-            source: CharSequence,
-            start: Int,
-            end: Int,
-            dest: Spanned,
-            dStart: Int,
-            dEnd: Int
-        ): CharSequence? {
-            try {
-                val input = Integer.parseInt(dest.toString() + source.toString())
-                if (isInRange(intMin, intMax, input)) {
-                    return null
-                }
-            } catch (e: NumberFormatException) {
-                e.printStackTrace()
-            }
-            return ""
-        }
-
-        // Check if input c is in between min a and max b and
-        // returns corresponding boolean
-        private fun isInRange(a: Int, b: Int, c: Int): Boolean {
-            return if (b > a) c in a..b else c in b..a
-        }
     }
 }
