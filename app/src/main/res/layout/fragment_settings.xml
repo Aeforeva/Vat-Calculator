@@ -73,7 +73,6 @@
                 android:id="@+id/side_rate_tax"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
                 android:enabled="@{viewModel.showSide}"
                 android:hint="@{viewModel.taxToString(viewModel.sideTax)}"
                 app:layout_constraintTop_toBottomOf="@id/side_rate_hint">

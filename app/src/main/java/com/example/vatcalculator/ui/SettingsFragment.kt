@@ -2,12 +2,17 @@ package com.example.vatcalculator.ui
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
-import android.text.InputFilter
-import android.view.*
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.vatcalculator.*
@@ -46,8 +51,27 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+//  = ContextCompat.getColor(requireContext(), R.color.holo_red_dark)
+        val boxStrokeColor = binding.sideRateTax.boxStrokeColor
+        val textColor = binding.sideRateTaxEditText.textColors
+        val defaultHintTextColor = binding.sideRateTax.defaultHintTextColor
+        val colorStateRed = ColorStateList(
+            arrayOf(intArrayOf(android.R.attr.state_focused)),
+            intArrayOf(Color.RED)
+        )
 
-        binding.mainRateTaxEditText.filters = arrayOf<InputFilter>(InputFilterMinMax(0.01, 99.99))
+        binding.mainRateTaxEditText.doOnTextChanged { text, _, _, _ ->
+            val inputValue = text.toString().toDoubleOrNull()
+            if (inputValue == null || 0 < inputValue && inputValue < 100) {
+                binding.mainRateTax.hintTextColor = defaultHintTextColor
+                binding.mainRateTax.boxStrokeColor = boxStrokeColor
+                binding.mainRateTaxEditText.setTextColor(textColor)
+            } else {
+                binding.mainRateTax.hintTextColor = colorStateRed
+                binding.mainRateTax.boxStrokeColor = Color.RED
+                binding.mainRateTaxEditText.setTextColor(Color.RED)
+            }
+        }
         binding.mainRateTaxEditText.setOnKeyListener { taxView, keyCode, _ ->
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
                 var inputValue = binding.mainRateTaxEditText.text.toString().toDoubleOrNull() ?: 0.0
@@ -66,6 +90,18 @@ class SettingsFragment : Fragment() {
             false
         }
 
+        binding.sideRateTaxEditText.doOnTextChanged { text, _, _, _ ->
+            val inputValue = text.toString().toDoubleOrNull()
+            if (inputValue == null || 0 < inputValue && inputValue < 100) {
+                binding.sideRateTax.hintTextColor = defaultHintTextColor
+                binding.sideRateTax.boxStrokeColor = boxStrokeColor
+                binding.sideRateTaxEditText.setTextColor(textColor)
+            } else {
+                binding.sideRateTax.hintTextColor = colorStateRed
+                binding.sideRateTax.boxStrokeColor = Color.RED
+                binding.sideRateTaxEditText.setTextColor(Color.RED)
+            }
+        }
         binding.sideRateTaxEditText.setOnKeyListener { _, keyCode, _ ->
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
                 var inputValue = binding.sideRateTaxEditText.text.toString().toDoubleOrNull() ?: 0.0
@@ -85,6 +121,7 @@ class SettingsFragment : Fragment() {
         }
 
         binding.sideRateSwitch.setOnCheckedChangeListener { _, isOn ->
+            binding.sideRateTaxEditText.setText("")
             viewModel.showSide.value = isOn
             sharedPref.edit() { putBoolean(SHOW_SIDE, isOn).apply() }
         }
