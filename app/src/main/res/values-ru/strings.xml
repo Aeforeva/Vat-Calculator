@@ -1,0 +1,42 @@
+<resources>
+    <!--Main menu -->
+    <string name="app_name">НДС Калькулятор</string>
+    <string name="history">История</string>
+    <string name="settings">Настройки</string>
+    <!--Calculation Fragment -->
+    <string name="input_hint">Введите одно значение:</string>
+    <string name="sum_with_tax">с НДС</string>
+    <string name="sum_without_tax">без НДС</string>
+    <string name="tax">НДС</string>
+    <string name="buttons_comment">Рассчитать по ставке:</string>
+    <string name="empty_input_msg">Введите значение</string>
+    <!--History menu-->
+    <string name="sort">Сортировка</string>
+    <string name="filter">Отфильтровать</string>
+    <string name="delete_history">Удалить историю</string>
+    <!--History Fragment Delete all dialog -->
+    <string name="delete_records">Удалить историю расчетов?</string>
+    <string name="delete_warning">Выбранные записи будут безвозвратно удалены:</string>
+    <string name="delete_unlocked">Удалить не заблокированные</string>
+    <string name="delete_all">Удалить ВСЕ</string>
+    <!--History Fragment Delete record dialog -->
+    <string name="delete">Удалить</string>
+    <string name="dismiss">Закрыть</string>
+    <string name="record_deleted">Запись удалена</string>
+    <string name="record_undo">Отменить</string>
+    <!--Settings Fragments-->
+    <string name="set_main_vat_rate">Основная ставка НДС:</string>
+    <string name="show_additional_vat_button">Показывать доп. кнопку НДС</string>
+    <string name="set_additional_vat_rate">Дополнительная ставка НДС:</string>
+    <string name="save_calculations_history">Сохранять историю</string>
+    <string name="saved_period">Хранить за период:</string>
+    <string name="tax_err">Введите ставку НДС от 0.01 до 99.99</string>
+    <!--History period-->
+    <string name="one_day">1 День</string>
+    <string name="one_week">1 Неделя</string>
+    <string name="one_month">1 Месяц</string>
+    <string name="three_month">3 Месяца</string>
+    <string name="six_month">6 Месяцев</string>
+    <string name="one_year">1 Год</string>
+
+</resources>

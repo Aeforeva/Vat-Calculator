@@ -15,8 +15,11 @@ interface CalculationDao {
     @Delete
     suspend fun delete(calculation: Calculation)
 
-    @Query("DELETE FROM Calculations WHERE isLocked = 0")
+    @Query("DELETE FROM Calculations")
     suspend fun deleteAll()
+
+    @Query("DELETE FROM Calculations WHERE isLocked = 0")
+    suspend fun deleteUnlocked()
 
     @Query("DELETE FROM Calculations WHERE isLocked = 0 AND timeStamp < :timeStampLimit")
     suspend fun deleteOld(timeStampLimit: Long)

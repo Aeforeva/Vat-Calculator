@@ -16,6 +16,7 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
     val historyPeriod = MutableLiveData(0)
     val historyPeriodString = MutableLiveData("")
     private var historyMilliseconds: Long = 31536000000 // History period in milliseconds
+    private var deletedCalculation: Calculation? = null
 
     fun setHistoryPeriod(period: Int) {
         historyPeriod.value = period
@@ -46,6 +47,7 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
         return DateFormat.getTimeInstance(DateFormat.SHORT).format(Date(timeStamp))
     }
 
+    // Only for dialog, for item in list corresponding functions in CalculationAdapter
     fun getDate(timeStamp: Long): String {
         return DateFormat.getDateInstance(DateFormat.LONG).format(Date(timeStamp))
     }
@@ -57,12 +59,25 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
     }
 
     fun deleteCalculation(calculation: Calculation) {
+        deletedCalculation = calculation
         viewModelScope.launch {
             calculationDao.delete(calculation)
         }
     }
 
-    fun deleteHistory() {
+    fun undoRecordDelete() {
+        viewModelScope.launch {
+            deletedCalculation?.let { calculationDao.insert(it) }
+        }
+    }
+
+    fun deleteUnlocked() {
+        viewModelScope.launch {
+            calculationDao.deleteUnlocked()
+        }
+    }
+
+    fun deleteAll() {
         viewModelScope.launch {
             calculationDao.deleteAll()
         }

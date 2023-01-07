@@ -1,8 +1,10 @@
 package com.example.vatcalculator.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
-import android.widget.FrameLayout
+import android.widget.Button
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -106,39 +108,47 @@ class HistoryFragment : Fragment() {
     })
 
     private fun dialogOnLongClick(calculation: Calculation) {
-        MaterialAlertDialogBuilder(requireContext())
+        val dialog = MaterialAlertDialogBuilder(requireContext())
             .setIcon(R.drawable.menu_history)
             .setTitle("${viewModel.getTime(calculation.timeStamp)}   ${viewModel.getDate(calculation.timeStamp)}")
-            .setMessage(
-                "${calculation.withTax}   ${getString(R.string.sum_with_tax)}\n" +
-                        "${calculation.withoutTax}   ${getString(R.string.sum_without_tax)}\n" +
-                        "${calculation.tax}   ${getString(R.string.tax)}"
-            )
-            .setNeutralButton(getString(R.string.delete)) { dialog, _ ->
+            .setMessage("${calculation.withTax}\n${calculation.withoutTax}\n${calculation.tax}")
+            .setNeutralButton(R.string.delete) { dialog, _ ->
                 viewModel.deleteCalculation(calculation)
-                Snackbar.make(binding.root, R.string.record_deleted, Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, R.string.record_deleted, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.record_undo) { viewModel.undoRecordDelete() }.show()
                 dialog.dismiss()
             }
-            .setPositiveButton(getString(R.string.dismiss)) { dialog, _ ->
+            .setPositiveButton(R.string.dismiss) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
+        val messageView: TextView? = dialog.findViewById(android.R.id.message)
+        messageView?.gravity = Gravity.CENTER
+        val deleteButton: Button? = dialog.findViewById(android.R.id.button3)
+        deleteButton?.setTextColor(Color.RED)
     }
 
     private fun dialogDeleteAll() {
-        MaterialAlertDialogBuilder(requireContext())
+        val dialog = MaterialAlertDialogBuilder(requireContext())
             .setIcon(R.drawable.menu_delete)
-            .setTitle(getString(R.string.delete_all))
-            .setMessage(getString(R.string.delete_warning))
-            .setNegativeButton(getString(android.R.string.cancel)) { dialog, _ ->
+            .setTitle(R.string.delete_records)
+            .setMessage(R.string.delete_warning)
+            .setNeutralButton(android.R.string.cancel) { dialog, _ ->
                 dialog.dismiss()
             }
-            .setPositiveButton(getString(android.R.string.ok)) { dialog, _ ->
-                Snackbar.make(binding.root, R.string.history_deleted, Snackbar.LENGTH_SHORT).show()
-//                viewModel.deleteHistory() // TODO turn it on
+//            .setNegativeButtonIcon(ContextCompat.getDrawable(requireContext(), R.drawable.lock_open))
+            .setNegativeButton(R.string.delete_unlocked) { dialog, _ ->
+                viewModel.deleteUnlocked()
+                dialog.dismiss()
+            }
+//            .setPositiveButtonIcon(ContextCompat.getDrawable(requireContext(), R.drawable.lock_close))
+            .setPositiveButton(R.string.delete_all) { dialog, _ ->
+                viewModel.deleteAll()
                 dialog.dismiss()
             }
             .show()
+        val deleteButton: Button? = dialog.findViewById(android.R.id.button1)
+        deleteButton?.setTextColor(Color.RED)
     }
 
     private fun submitCorrespondingList() {

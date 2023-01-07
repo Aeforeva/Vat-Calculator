@@ -1,25 +1,37 @@
 <resources>
+    <!--Main menu -->
     <string name="app_name">VAT Calculator</string>
     <string name="history">History</string>
     <string name="settings">Settings</string>
-
+    <!--Calculation Fragment -->
     <string name="input_hint">Input one value:</string>
     <string name="sum_with_tax">with VAT</string>
     <string name="sum_without_tax">without VAT</string>
     <string name="tax">VAT</string>
     <string name="buttons_comment">Calculate by rate:</string>
     <string name="empty_input_msg">Input some values</string>
-
-    <string name="delete">Delete</string>
+    <!--History menu-->
     <string name="sort">Sort order</string>
     <string name="filter">Filter by locked</string>
-    <string name="delete_all">Delete all unlocked</string>
-    <string name="delete_warning">You about to delete all UNLOCKED history records, are you sure ?</string>
-    <string name="history_deleted">History deleted</string>
-    <string name="record_deleted">Record deleted</string>
+    <string name="delete_history">Delete history</string>
+    <!--History Fragment Delete all dialog -->
+    <string name="delete_records">Delete history records?</string>
+    <string name="delete_warning">Selected records will be permanently deleted:</string>
+    <string name="delete_unlocked">Delete Unlocked</string>
+    <string name="delete_all">Delete All Records</string>
+    <!--History Fragment Delete record dialog -->
+    <string name="delete">Delete</string>
     <string name="dismiss">Dismiss</string>
-
+    <string name="record_deleted">Record deleted</string>
+    <string name="record_undo">Undo</string>
+    <!--Settings Fragments-->
+    <string name="set_main_vat_rate">Set Main VAT rate:</string>
+    <string name="show_additional_vat_button">Show additional VAT button</string>
+    <string name="set_additional_vat_rate">Set Additional VAT rate:</string>
+    <string name="save_calculations_history">Save calculations history</string>
+    <string name="saved_period">Saved period:</string>
     <string name="tax_err">Input tax rate: 0.01 – 99.99</string>
+    <!--History period-->
     <string name="one_day">1 Day</string>
     <string name="one_week">1 Week</string>
     <string name="one_month">1 Month</string>

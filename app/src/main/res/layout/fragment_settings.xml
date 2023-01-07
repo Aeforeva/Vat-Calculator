@@ -26,9 +26,9 @@
                 android:id="@+id/main_rate_hint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:gravity="center"
-                android:text="Set Main VAT rate:"
+                android:text="@string/set_main_vat_rate"
                 android:textSize="18sp"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +36,6 @@
                 android:id="@+id/main_rate_tax"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:hint="@{viewModel.taxToString(viewModel.mainTax)}"
                 app:layout_constraintTop_toBottomOf="@id/main_rate_hint">
 
@@ -52,10 +51,11 @@
                 android:id="@+id/side_rate_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:checked="@{viewModel.showSide}"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:text="Show additional VAT button"
+                android:text="@string/show_additional_vat_button"
                 android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@id/main_rate_tax" />
 
@@ -63,9 +63,10 @@
                 android:id="@+id/side_rate_hint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:enabled="@{viewModel.showSide}"
                 android:gravity="center"
-                android:text="Set Additional VAT rate:"
+                android:text="@string/set_additional_vat_rate"
                 android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@id/side_rate_switch" />
 
@@ -86,14 +87,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.switchmaterial.SwitchMaterial
-                android:textSize="18sp"
                 android:id="@+id/history_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="@{viewModel.saveHistory}"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:text="Save history"
+                android:text="@string/save_calculations_history"
+                android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@id/side_rate_tax" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -102,7 +103,8 @@
                 android:layout_height="wrap_content"
                 android:enabled="@{viewModel.saveHistory}"
                 android:paddingLeft="8dp"
-                android:text="saved period"
+                android:paddingRight="8dp"
+                android:text="@string/saved_period"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/history_switch" />
@@ -112,6 +114,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:enabled="@{viewModel.saveHistory}"
+                android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:text="@{viewModel.historyPeriodString}"
                 android:textSize="18sp"
