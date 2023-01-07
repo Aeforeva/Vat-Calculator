@@ -15,57 +15,63 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/cacl_time"
+            android:id="@+id/calc_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="@id/cacl_date"
-            app:layout_constraintStart_toStartOf="@id/cacl_date"
+            app:layout_constraintEnd_toEndOf="@id/calc_date"
+            app:layout_constraintStart_toStartOf="@id/calc_date"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="11:22" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/cacl_date"
+            android:id="@+id/calc_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cacl_time"
+            app:layout_constraintTop_toBottomOf="@id/calc_time"
             tools:text="01.01.23" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/cacl_with_tax"
+            android:id="@+id/calc_with_tax"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:ellipsize="end"
             android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="@id/cacl_date"
-            app:layout_constraintEnd_toStartOf="@id/cacl_without_tax"
-            app:layout_constraintStart_toEndOf="@id/cacl_date"
-            app:layout_constraintTop_toTopOf="@id/cacl_time"
+            android:maxLines="1"
+            app:layout_constraintBottom_toBottomOf="@id/calc_date"
+            app:layout_constraintEnd_toStartOf="@id/calc_without_tax"
+            app:layout_constraintStart_toEndOf="@id/calc_date"
+            app:layout_constraintTop_toTopOf="@id/calc_time"
             tools:text="$12,000,000.00" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/cacl_without_tax"
+            android:id="@+id/calc_without_tax"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:ellipsize="end"
             android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="@id/cacl_date"
-            app:layout_constraintEnd_toStartOf="@id/cacl_tax"
-            app:layout_constraintStart_toEndOf="@id/cacl_with_tax"
-            app:layout_constraintTop_toTopOf="@id/cacl_time"
+            android:maxLines="1"
+            app:layout_constraintBottom_toBottomOf="@id/calc_date"
+            app:layout_constraintEnd_toStartOf="@id/calc_tax"
+            app:layout_constraintStart_toEndOf="@id/calc_with_tax"
+            app:layout_constraintTop_toTopOf="@id/calc_time"
             tools:text="$10,000,000.00" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/cacl_tax"
+            android:id="@+id/calc_tax"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:ellipsize="end"
             android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="@id/cacl_date"
+            android:maxLines="1"
+            app:layout_constraintBottom_toBottomOf="@id/calc_date"
             app:layout_constraintEnd_toStartOf="@id/calc_is_locked"
-            app:layout_constraintStart_toEndOf="@id/cacl_without_tax"
-            app:layout_constraintTop_toTopOf="@id/cacl_time"
+            app:layout_constraintStart_toEndOf="@id/calc_without_tax"
+            app:layout_constraintTop_toTopOf="@id/calc_time"
             tools:text="$2,000,000.00" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -73,17 +79,17 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="4dp"
-            app:layout_constraintBottom_toBottomOf="@id/cacl_date"
+            app:layout_constraintBottom_toBottomOf="@id/calc_date"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/cacl_time"
+            app:layout_constraintTop_toTopOf="@id/calc_time"
             app:lockStatus="@{isLocked}"
             tools:src="@drawable/lock_open" />
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/cacl_date" />
+            app:layout_constraintTop_toBottomOf="@id/calc_date" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,7 +16,6 @@ import com.example.vatcalculator.viewmodels.MainViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import java.text.NumberFormat
 
-
 class CalculationFragment : Fragment() {
 
     private val viewModel: MainViewModel by activityViewModels {
@@ -39,15 +38,11 @@ class CalculationFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.menu_history -> {
-                        val action =
-                            CalculationFragmentDirections.actionCalculationFragmentToHistoryFragment()
-                        findNavController().navigate(action)
+                        findNavController().navigate(R.id.action_calculationFragment_to_historyFragment)
                         true
                     }
                     R.id.menu_settings -> {
-                        val action =
-                            CalculationFragmentDirections.actionCalculationFragmentToSettingsFragment()
-                        findNavController().navigate(action)
+                        findNavController().navigate(R.id.action_calculationFragment_to_settingsFragment)
                         true
                     }
                     else -> false

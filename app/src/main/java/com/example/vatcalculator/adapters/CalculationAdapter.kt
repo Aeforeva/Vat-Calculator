@@ -1,6 +1,5 @@
 package com.example.vatcalculator.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,10 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.vatcalculator.databinding.CalculationItemBinding
 import com.example.vatcalculator.room.Calculation
 import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
-class CalculationAdapter(private var onClicked: (Calculation) -> Unit, private var onLongClicked: (Calculation) -> Unit) :
+class CalculationAdapter(
+    private var onClicked: (Calculation) -> Unit,
+    private var onLongClicked: (Calculation) -> Unit
+) :
     ListAdapter<Calculation, CalculationAdapter.CalculationViewHolder>(DiffCallback) {
 
     class CalculationViewHolder(var binding: CalculationItemBinding) :
@@ -20,11 +21,11 @@ class CalculationAdapter(private var onClicked: (Calculation) -> Unit, private v
         val lockView = binding.calcIsLocked
         fun bind(calculation: Calculation) {
             binding.apply {
-                caclTime.text = getTime(calculation.timeStamp)
-                caclDate.text = getDate(calculation.timeStamp)
-                caclWithTax.text = trimString(calculation.withTax)
-                caclWithoutTax.text = trimString(calculation.withoutTax)
-                caclTax.text = trimString(calculation.tax)
+                calcTime.text = getTime(calculation.timeStamp)
+                calcDate.text = getDate(calculation.timeStamp)
+                calcWithTax.text = calculation.withTax
+                calcWithoutTax.text = calculation.withoutTax
+                calcTax.text = calculation.tax
                 isLocked = calculation.isLocked
 //                executePendingBindings() //TODO Do i need this in my case ?
             }
@@ -63,15 +64,10 @@ class CalculationAdapter(private var onClicked: (Calculation) -> Unit, private v
     }
 }
 
-@SuppressLint("SimpleDateFormat")
 fun getTime(timeStamp: Long): String {
-    return SimpleDateFormat("HH:mm").format(Date(timeStamp))
+    return DateFormat.getTimeInstance(DateFormat.SHORT).format(Date(timeStamp))
 }
 
 fun getDate(timeStamp: Long): String {
     return DateFormat.getDateInstance(DateFormat.SHORT).format(Date(timeStamp))
-}
-
-fun trimString(text: String): String {
-    return if (text.length > 13) text.take(11) + "..." else text
 }

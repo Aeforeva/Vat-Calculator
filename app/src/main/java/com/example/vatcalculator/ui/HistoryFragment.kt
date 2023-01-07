@@ -116,6 +116,7 @@ class HistoryFragment : Fragment() {
             )
             .setNeutralButton(getString(R.string.delete)) { dialog, _ ->
                 viewModel.deleteCalculation(calculation)
+                Snackbar.make(binding.root, R.string.record_deleted, Snackbar.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
             .setPositiveButton(getString(R.string.dismiss)) { dialog, _ ->
@@ -133,7 +134,7 @@ class HistoryFragment : Fragment() {
                 dialog.dismiss()
             }
             .setPositiveButton(getString(android.R.string.ok)) { dialog, _ ->
-                makeSnackOnTop(getString(R.string.history_deleted))
+                Snackbar.make(binding.root, R.string.history_deleted, Snackbar.LENGTH_SHORT).show()
 //                viewModel.deleteHistory() // TODO turn it on
                 dialog.dismiss()
             }
@@ -167,16 +168,6 @@ class HistoryFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun makeSnackOnTop(text: String) {
-        val snack: Snackbar =
-            Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT)
-        val view = snack.view
-        val params = view.layoutParams as FrameLayout.LayoutParams
-        params.gravity = Gravity.TOP
-        view.layoutParams = params
-        snack.show()
     }
 }
 

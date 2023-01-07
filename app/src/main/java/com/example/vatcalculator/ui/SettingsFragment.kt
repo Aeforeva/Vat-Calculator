@@ -58,7 +58,8 @@ class SettingsFragment : Fragment() {
                     sharedPref.edit() { putInt(MAIN_TAX, (inputValue * 100).toInt()).apply() }
                     clearFocusAndHideKeyboard(taxView)
                 } else {
-                    Snackbar.make(binding.root, R.string.tax_err, Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(binding.root, R.string.tax_err, Snackbar.LENGTH_LONG)
+                        .setAction(getString(android.R.string.ok)) {}.show()
                     return@setOnKeyListener true
                 }
             }
@@ -75,7 +76,8 @@ class SettingsFragment : Fragment() {
                     sharedPref.edit() { putInt(SIDE_TAX, (inputValue * 100).toInt()).apply() }
                     clearFocusAndHideKeyboard(view)
                 } else {
-                    Snackbar.make(binding.root, R.string.tax_err, Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(binding.root, R.string.tax_err, Snackbar.LENGTH_LONG)
+                        .setAction(getString(android.R.string.ok)) {}.show()
                     return@setOnKeyListener true
                 }
             }
