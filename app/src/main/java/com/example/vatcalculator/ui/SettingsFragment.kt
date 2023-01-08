@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -154,6 +155,11 @@ class SettingsFragment : Fragment() {
                 else -> "30 sec"
 //            else -> getString(R.string.one_year) // TODO
             }
+        }
+
+        binding.conciseLayout.setOnCheckedChangeListener { _, isOn ->
+            viewModel.conciseLayout.value = isOn
+            sharedPref.edit() { putBoolean(CONCISE_LAYOUT, isOn).apply() }
         }
     }
 

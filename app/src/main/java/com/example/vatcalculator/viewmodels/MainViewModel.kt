@@ -13,6 +13,7 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
     var sideTax = 0.0
     val showSide = MutableLiveData(false)
     val saveHistory = MutableLiveData(false)
+    val conciseLayout = MutableLiveData(false)
     val historyPeriod = MutableLiveData(0)
     val historyPeriodString = MutableLiveData("")
     private var historyMilliseconds: Long = 31536000000 // History period in milliseconds

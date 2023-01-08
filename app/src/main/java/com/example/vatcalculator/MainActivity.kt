@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.sideTax = sharedPref.getInt(SIDE_TAX, 1000).toDouble() / 100
         viewModel.showSide.value = sharedPref.getBoolean(SHOW_SIDE, true)
         viewModel.saveHistory.value = sharedPref.getBoolean(SAVE_HISTORY, true)
+        viewModel.conciseLayout.value = sharedPref.getBoolean(CONCISE_LAYOUT, false)
         viewModel.setHistoryPeriod(sharedPref.getInt(HISTORY_PERIOD, 1)) // default = 0-4, else
         // Set string here instead of viewModel, so i can simply use string resources
         viewModel.historyPeriodString.value = when (sharedPref.getInt(HISTORY_PERIOD, 1)) {

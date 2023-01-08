@@ -31,7 +31,8 @@
                 android:gravity="center"
                 android:text="@string/input_hint"
                 android:textSize="18sp"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:viewVisibility="@{viewModel.conciseLayout}" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/sum_with_tax"
@@ -48,13 +49,20 @@
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <View
+                android:id="@+id/divider_one"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                app:layout_constraintTop_toBottomOf="@+id/sum_with_tax"
+                app:viewVisibility="@{viewModel.conciseLayout}" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/sum_without_tax"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="6dp"
                 android:hint="@string/sum_without_tax"
-                app:layout_constraintTop_toBottomOf="@id/sum_with_tax">
+                app:layout_constraintTop_toBottomOf="@id/divider_one">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/sum_without_tax_edit_text"
@@ -63,13 +71,20 @@
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <View
+                android:id="@+id/divider_two"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                app:layout_constraintTop_toBottomOf="@+id/sum_without_tax"
+                app:viewVisibility="@{viewModel.conciseLayout}" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tax"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="6dp"
                 android:hint="@string/tax"
-                app:layout_constraintTop_toBottomOf="@id/sum_without_tax">
+                app:layout_constraintTop_toBottomOf="@id/divider_two">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tax_edit_text"
@@ -82,11 +97,12 @@
                 android:id="@+id/buttons_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="@string/buttons_comment"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/tax" />
+                app:layout_constraintTop_toBottomOf="@+id/tax"
+                app:viewVisibility="@{viewModel.conciseLayout}" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/calc_side"

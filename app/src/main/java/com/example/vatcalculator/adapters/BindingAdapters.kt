@@ -11,6 +11,11 @@ fun setVisibility(button: Button, show: Boolean) {
     if (show) button.visibility = View.VISIBLE else button.visibility = View.GONE
 }
 
+@BindingAdapter("viewVisibility")
+fun setVisibility(view: View, hide: Boolean) {
+    if (hide) view.visibility = View.GONE else view.visibility = View.VISIBLE
+}
+
 @BindingAdapter("lockStatus")
 fun setLockImage(imageView: ImageView, isLocked: Boolean) {
     if (isLocked) {

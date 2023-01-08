@@ -38,5 +38,6 @@
     <string name="three_month">3 Месяца</string>
     <string name="six_month">6 Месяцев</string>
     <string name="one_year">1 Год</string>
+    <string name="concise_layout">Компактный вид</string>
 
 </resources>
