@@ -1,7 +1,10 @@
 package com.example.vatcalculator.ui
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -161,6 +164,18 @@ class CalculationFragment : Fragment() {
                 binding.sumWithoutTaxEditText.text.toString(),
                 binding.taxEditText.text.toString()
             )
+        }
+
+        /**
+         * On old SDK keyboard switched to qwerty after calculation for some reason,
+         * which persist through navigation action. So this will hide it.
+         * Or switch to qwerty and then hide which looks worst than just hide.
+         * I tried to reset input type, but non of trying method works :(
+         * */
+        if (android.os.Build.VERSION.SDK_INT < 28){
+            val inputMethodManager =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
         }
     }
 }
