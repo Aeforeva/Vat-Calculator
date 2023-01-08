@@ -5,8 +5,8 @@
     <string name="settings">Настройки</string>
     <!--Calculation Fragment -->
     <string name="input_hint">Введите одно значение:</string>
-    <string name="sum_with_tax">с НДС</string>
-    <string name="sum_without_tax">без НДС</string>
+    <string name="sum_with_tax">Сумма с НДС</string>
+    <string name="sum_without_tax">Сумма без НДС</string>
     <string name="tax">НДС</string>
     <string name="buttons_comment">Рассчитать по ставке:</string>
     <string name="empty_input_msg">Введите значение</string>
@@ -26,7 +26,7 @@
     <string name="record_undo">Отменить</string>
     <!--Settings Fragments-->
     <string name="set_main_vat_rate">Основная ставка НДС:</string>
-    <string name="show_additional_vat_button">Показывать доп. кнопку НДС</string>
+    <string name="show_additional_vat_button">Дополнительная кнопка НДС</string>
     <string name="set_additional_vat_rate">Дополнительная ставка НДС:</string>
     <string name="save_calculations_history">Сохранять историю</string>
     <string name="saved_period">Хранить за период:</string>

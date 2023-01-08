@@ -9,12 +9,12 @@ import java.util.*
 
 class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
 
-    var mainTax = 0.0
-    var sideTax = 0.0
-    val showSide = MutableLiveData(false)
-    val saveHistory = MutableLiveData(false)
+    var mainTax = 20.0
+    var sideTax = 10.0
+    val showSide = MutableLiveData(true)
+    val saveHistory = MutableLiveData(true)
     val conciseLayout = MutableLiveData(false)
-    val historyPeriod = MutableLiveData(0)
+    val historyPeriod = MutableLiveData(1)
     val historyPeriodString = MutableLiveData("")
     private var historyMilliseconds: Long = 31536000000 // History period in milliseconds
     private var deletedCalculation: Calculation? = null
@@ -27,8 +27,7 @@ class MainViewModel(private val calculationDao: CalculationDao) : ViewModel() {
             2 -> 2678400000 // 1 Month
             3 -> 7884000000 // 3 Month
             4 -> 15768000000 // 6 Month
-            else -> 30_000 // 30sec
-//            else -> 31536000000 // 1 Year // TODO
+            else -> 31536000000 // 1 Year
         }
     }
 

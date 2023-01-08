@@ -24,9 +24,3 @@ fun setLockImage(imageView: ImageView, isLocked: Boolean) {
         imageView.setImageResource(R.drawable.lock_open)
     }
 }
-
-// Not yet used (For now i just passed true/false from viewModel directly to isEnabled in layout)
-@BindingAdapter("availability")
-fun setAvailability(view: View, isEnabled: Boolean) {
-    view.isEnabled = isEnabled
-}

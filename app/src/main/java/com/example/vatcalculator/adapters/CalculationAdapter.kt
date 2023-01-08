@@ -16,7 +16,7 @@ class CalculationAdapter(
 ) :
     ListAdapter<Calculation, CalculationAdapter.CalculationViewHolder>(DiffCallback) {
 
-    class CalculationViewHolder(var binding: CalculationItemBinding) :
+    class CalculationViewHolder(private var binding: CalculationItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val lockView = binding.calcIsLocked
         fun bind(calculation: Calculation) {
@@ -27,7 +27,7 @@ class CalculationAdapter(
                 calcWithoutTax.text = calculation.withoutTax
                 calcTax.text = calculation.tax
                 isLocked = calculation.isLocked
-//                executePendingBindings() //TODO Do i need this in my case ?
+//                executePendingBindings()
             }
         }
     }

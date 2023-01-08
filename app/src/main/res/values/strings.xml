@@ -9,7 +9,7 @@
     <string name="sum_without_tax">without VAT</string>
     <string name="tax">VAT</string>
     <string name="buttons_comment">Calculate by rate:</string>
-    <string name="empty_input_msg">Input some values</string>
+    <string name="empty_input_msg">Input some value</string>
     <!--History menu-->
     <string name="sort">Sort order</string>
     <string name="filter">Filter by locked</string>

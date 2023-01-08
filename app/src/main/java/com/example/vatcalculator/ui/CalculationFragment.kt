@@ -2,7 +2,6 @@ package com.example.vatcalculator.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.MenuHost
@@ -41,10 +40,12 @@ class CalculationFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.menu_history -> {
+                        hideKeyboard()
                         findNavController().navigate(R.id.action_calculationFragment_to_historyFragment)
                         true
                     }
                     R.id.menu_settings -> {
+                        hideKeyboard()
                         findNavController().navigate(R.id.action_calculationFragment_to_settingsFragment)
                         true
                     }
@@ -167,15 +168,19 @@ class CalculationFragment : Fragment() {
         }
 
         /**
-         * On old SDK keyboard switched to qwerty after calculation for some reason,
+         * On old SDK keyboard switched to qwerty after clearFocus() for some reason,
          * which persist through navigation action. So this will hide it.
          * Or switch to qwerty and then hide which looks worst than just hide.
-         * I tried to reset input type, but non of trying method works :(
+         * I tried to reset input type, but non of trying method works well :(
          * */
-        if (android.os.Build.VERSION.SDK_INT < 28){
-            val inputMethodManager =
-                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+        if (android.os.Build.VERSION.SDK_INT < 28) {
+            hideKeyboard()
         }
+    }
+
+    private fun hideKeyboard() {
+        val inputMethodManager =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 }

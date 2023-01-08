@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -73,7 +72,7 @@ class SettingsFragment : Fragment() {
                 binding.mainRateTaxEditText.setTextColor(Color.RED)
             }
         }
-        binding.mainRateTaxEditText.setOnKeyListener { taxView, keyCode, _ ->
+        binding.mainRateTaxEditText.setOnKeyListener { _, keyCode, _ ->
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
                 var inputValue = binding.mainRateTaxEditText.text.toString().toDoubleOrNull() ?: 0.0
                 inputValue = (inputValue * 100.0).roundToInt() / 100.0
@@ -81,7 +80,7 @@ class SettingsFragment : Fragment() {
                     viewModel.mainTax = inputValue
                     binding.mainRateTax.hint = viewModel.taxToString(inputValue)
                     sharedPref.edit() { putInt(MAIN_TAX, (inputValue * 100).toInt()).apply() }
-                    clearFocusAndHideKeyboard(taxView)
+                    clearFocusAndHideKeyboard()
                 } else {
                     Snackbar.make(binding.root, R.string.tax_err, Snackbar.LENGTH_LONG)
                         .setAction(getString(android.R.string.ok)) {}.show()
@@ -111,7 +110,7 @@ class SettingsFragment : Fragment() {
                     viewModel.sideTax = inputValue
                     binding.sideRateTax.hint = viewModel.taxToString(inputValue)
                     sharedPref.edit() { putInt(SIDE_TAX, (inputValue * 100).toInt()).apply() }
-                    clearFocusAndHideKeyboard(view)
+                    clearFocusAndHideKeyboard()
                 } else {
                     Snackbar.make(binding.root, R.string.tax_err, Snackbar.LENGTH_LONG)
                         .setAction(getString(android.R.string.ok)) {}.show()
@@ -140,8 +139,7 @@ class SettingsFragment : Fragment() {
                 2 -> getString(R.string.one_month)
                 3 -> getString(R.string.three_month)
                 4 -> getString(R.string.six_month)
-                else -> "30 sec"
-//            else -> getString(R.string.one_year) // TODO
+                else -> getString(R.string.one_year)
             }
             sharedPref.edit() { putInt(HISTORY_PERIOD, value.toInt()).apply() }
         })
@@ -152,8 +150,7 @@ class SettingsFragment : Fragment() {
                 2 -> getString(R.string.one_month)
                 3 -> getString(R.string.three_month)
                 4 -> getString(R.string.six_month)
-                else -> "30 sec"
-//            else -> getString(R.string.one_year) // TODO
+                else -> getString(R.string.one_year)
             }
         }
 
@@ -163,16 +160,21 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        clearFocusAndHideKeyboard()
+        viewModel.deleteOldHistory()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.deleteOldHistory()
         _binding = null
     }
 
-    private fun clearFocusAndHideKeyboard(view: View) {
-        view.clearFocus()
+    private fun clearFocusAndHideKeyboard() {
+        view?.clearFocus()
         val inputMethodManager =
             requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+        inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 }

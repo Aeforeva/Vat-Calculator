@@ -38,8 +38,7 @@ class MainActivity : AppCompatActivity() {
             2 -> getString(R.string.one_month)
             3 -> getString(R.string.three_month)
             4 -> getString(R.string.six_month)
-            else -> "30 sec"
-//            else -> getString(R.string.one_year)
+            else -> getString(R.string.one_year)
         }
         viewModel.deleteOldHistory()
 
