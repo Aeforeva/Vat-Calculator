@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.vatcalculator'
+    namespace 'io.github.aeforeva.vatcalculator'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.vatcalculator"
+        applicationId "io.github.aeforeva.vatcalculator"
         minSdk 21
         targetSdk 32
         versionCode 1

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/calculationFragment"
-        android:name="com.example.vatcalculator.ui.CalculationFragment"
+        android:name="io.github.aeforeva.vatcalculator.ui.CalculationFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_calculation">
         <action
@@ -19,12 +19,12 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.vatcalculator.ui.SettingsFragment"
+        android:name="io.github.aeforeva.vatcalculator.ui.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.example.vatcalculator.ui.HistoryFragment"
+        android:name="io.github.aeforeva.vatcalculator.ui.HistoryFragment"
         android:label="@string/history"
         tools:layout="@layout/fragment_history" />
 </navigation>

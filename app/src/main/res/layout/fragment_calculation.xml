@@ -7,14 +7,14 @@
 
         <variable
             name="viewModel"
-            type="com.example.vatcalculator.viewmodels.MainViewModel" />
+            type="io.github.aeforeva.vatcalculator.viewmodels.MainViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.CalculationFragment">
+        tools:context="io.github.aeforeva.vatcalculator.ui.CalculationFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"

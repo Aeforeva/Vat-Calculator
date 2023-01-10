@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".MainActivity">
+    tools:context="io.github.aeforeva.vatcalculator.MainActivity">
 
     <ScrollView
         android:layout_width="match_parent"
