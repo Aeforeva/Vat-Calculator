@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.VatCalculator"
-        tools:targetApi="31">
+        tools:targetApi="33">
         <activity
             android:name="io.github.aeforeva.vatcalculator.MainActivity"
             android:exported="true"
